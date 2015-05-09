@@ -1,36 +1,21 @@
 ## run_analysis Code Book
 
-table1 - 
-id = id of the participants
-activity.x = activities that the participants did in relation to the test data
-		   1 = WALKING
-		   2 = WALKING_UPSTAIRS
-		   3 = WALKING_DOWNSTAIRS
-		   4 = SITTING
-		   5 = STANDING
-		   6 = LAYIING
-test.mean = The mean of each individual trial for the test dataset
-test.SD = The standard deviations of each individual trial for the test dataset
-activity.y = activities that the participants did in relation to the train data
-		   1 = WALKING
-		   2 = WALKING_UPSTAIRS
-		   3 = WALKING_DOWNSTAIRS
-		   4 = SITTING
-		   5 = STANDING
-		   6 = LAYIING
-train.Mean = The mean of each individual trial for the train dataset
-train.SD = The standard deviations of each individual trial for the train dataset
-
-table2 - 
-id = id of the participants
-activity = activities that the participants
-		   1 = WALKING
-		   2 = WALKING_UPSTAIRS
-		   3 = WALKING_DOWNSTAIRS
-		   4 = SITTING
-		   5 = STANDING
-		   6 = LAYIING
-test.mean = The mean of each activity test per individual for the test dataset
-test.SD = The standard deviations of  each activity test per individual for the test dataset
-train.Mean = The mean of  each activity test per individual for the train dataset
-train.SD = The standard deviations of each activity test per individual for the train dataset
+activity - type of activity done</br>
+subject - subject id</br>
+tBodyAcc-XYZ mean/std - mean/std of body acc</br>
+tGravityAcc-XYZ mean/std -  mean/std of gravity acc</br>
+tBodyAccJerk-XYZ mean/std - mean/std of body acc. jerk</br>
+tBodyGyro-XYZ mean/std -  mean/std of body gyro</br>
+tBodyGyroJerk-XYZ mean/std -  mean/std of body gyro jerk</br>
+tBodyAccMag mean/std  - mean/std of body acc mag</br>
+tGravityAccMag mean/std - mean/std of gravityacmag</br>
+tBodyAccJerkMag mean/std -mean/std of  bodyaccjerkmag</br>
+tBodyGyroMag mean/std - mean/std of gyromag</br>
+tBodyGyroJerkMag mean/std - mean/std of gyrojerkmag</br>
+fBodyAcc-XYZ mean/std - mean/std of bodyacc</br>
+fBodyAccJerk-XYZ mean/std - mean/std of bodyaccjerk</br>
+fBodyGyro-XYZ mean/std - mean/std of bodygyro</br>
+fBodyAccMag mean/std - mean/std of bodyaccmag</br>
+fBodyAccJerkMag mean/std - mean/std of bodyaccjerkmag</br>
+fBodyGyroMag mean/std - mean/std of bodygyromag</br>
+fBodyGyroJerkMag mean/std - mean/std of bodygyrojerkmag</br>

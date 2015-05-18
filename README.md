@@ -12,6 +12,7 @@ Contains the files and projects needed for the Data Science Track on Coursera
 <ul>
 	<strong>Exploratory Data Analysis</strong>
 	<li>Project1 - Create graphs based on data from measurements of power consumption</li>
+	<li>Project2 - Create graphs determining change in PM2.5 emissions</li>
 </ul>
 
 Current - Exploratory Data Analysis</br>

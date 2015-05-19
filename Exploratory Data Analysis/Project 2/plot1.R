@@ -3,8 +3,9 @@
 
 plot1 = function(){
     #Reads the data
-    NEI <- readRDS("summarySCC_PM25.rds")
-    SCC <- readRDS("Source_Classification_Code.rds")
+    if(!exists('NEI')){
+        NEI <<- readRDS("summarySCC_PM25.rds")    
+    }
     
     #Extracts necessary data for the graph
     p1999 = sum(NEI$Emissions[NEI$year==1999])

@@ -26,5 +26,10 @@ plot5 = function(){
     #Builds new data frame with prior extracted data for the graph
     p5data = data.frame(c(1999,2002,2005,2008),c(m1999,m2002,m2005,m2008))
     names(p5data) = c( 'year','total_emissions')
-    
+ 
+    #Draws and saves the graph
+    png(filename = "plot5.png", height = 480, width = 480)
+    plot(x=p5data$year,y=p5data$total_emission, xlab="Year",ylab="Total Vehicle Emissions", 
+         main=paste("Plot 5 - Change in Emission from Vehicles vs Time(year)"),type='l',col='red')
+    dev.off()
 }

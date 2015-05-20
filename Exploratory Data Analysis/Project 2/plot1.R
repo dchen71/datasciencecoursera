@@ -19,6 +19,7 @@ plot1 = function(){
     
     #Draws the plot
     png(filename = "plot1.png", height = 480, width = 480)
-    plot(x=p1data$year,y=p1data$total_emission, xlab="Year",ylab="Total Pm2.5 emission", main=paste("Plot 1"),type='l',col='red')
+    plot(x=p1data$year,y=p1data$total_emission, xlab="Year",ylab="Total Pm2.5 emission", 
+         main=paste("Plot 1 - Total PM2.5 Emissions vs Time(year)"),type='l',col='red')
     dev.off()
 }

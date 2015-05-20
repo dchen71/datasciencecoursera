@@ -36,4 +36,13 @@ plot6 = function(){
                         c(l1999, l2002,l2005,l2008))
     names(p6data) = c( 'year','balt_emissions','la_emissions')
     
+    #Plots and saves a png
+    png(filename = "plot6.png", height = 480, width = 480)
+    plot(x=p6data$year,y=log(p6data$la_emissions), xlab="Year",ylab="Total Coal Emissions(log)", 
+         main=paste("Plot 6 - Change in Vehicle Emission vs Time(year)"),type='l',col='red',
+         ylim=c(min(log(p6data$balt_emissions)) - 1,max(log(p6data$la_emissions)) + 1))
+    points(x=p6data$year, y = log(p6data$balt_emissions), type="l", col="blue")
+    legend("topright",lty=1,col=c("red","blue"),legend = c("Los Angeles", "Baltimore"))
+    dev.off()
+    
 }

@@ -9,6 +9,9 @@ plot3 = function(){
         NEI <<- readRDS("summarySCC_PM25.rds")    
     }
     
+    #Load ggplot2
+    library('ggplot2')
+    
     #Subsets the NEI types
     balt = subset(NEI,NEI$fips == '24510')
     point = subset(balt,balt$type == 'POINT')
@@ -41,10 +44,20 @@ plot3 = function(){
     nr2008 = sum(nonroad$Emissions[nonroad$year==2008])    
     
     #Creates dataframe with all the variables
-    p3data = data.frame(c(1999,2002,2005,2008),c(p1999,p2002,p2005,p2008),
-                        c(np1999,np2002,np2005,np2008), c(r1999,r2002,r2005,r2008),
-                        c(nr1999,nr2002,nr2005,nr2008))
-    names(p3data) = c('year','point_em','nonpoint_em','road_em','nonroad_em')
+    p3data = data.frame(c(1999,2002,2005,2008),c(p1999,p2002,p2005,p2008,
+                        np1999,np2002,np2005,np2008,r1999,r2002,r2005,r2008,
+                        nr1999,nr2002,nr2005,nr2008),factor(c('point','point','point','point',
+                        'nonpoint','nonpoint','nonpoint','nonpoint','onroad','onroad','onroad',
+                        'onroad','nonroad','nonroad','nonroad','nonroad')))
+    names(p3data) = c('year','emissions','type')
     
-    #ggplot it
+    
+    #Creates and saves the plot
+    png(filename = "plot3.png", height = 480, width = 480)
+    p3 = qplot(x=year,y=emissions,data=p3data,color=type,geom="line",xlab="Year",
+               ylab="Total Emissions",main="Total emissions between different types of emitters 
+               vs time",type="Type")
+    p3 + labs(colour = "Type of Source") #Rename legend
+    print(p3) #To be able to save the plot
+    dev.off()
 }

@@ -15,4 +15,9 @@ Contains the files and projects needed for the Data Science Track on Coursera
 * Project1 - Report containing information gathered from activity monitoring data
 * Project2 - Report addressing event data from NOAA Storm Database
 
-Current - *Reproducible Research*  
+*Reproducible Research*
+* CLT - Report investigating exponential distribution and comparing with the central limit theorem
+* Toothgrowth - Report summarizing the toothgrowth data
+
+
+Current - *Statistical Inference*  

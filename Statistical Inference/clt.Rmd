@@ -1,6 +1,6 @@
 ---
 title: "Proving the Central Limit Theorem"
-output: pdf_document
+output: html_document
 ---
 
 #Proving the Central Limit Theorem
@@ -8,18 +8,11 @@ dchen71
 
 Overview
 
-This report will compare the expontential distrbution against the normalized central limit theorem.
-
-    Title (give an appropriate title) and Author Name
-    Overview: In a few (2-3) sentences explain what is going to be reported on.
-    Simulations: Include English explanations of the simulations you ran, with the accompanying R code. Your explanations should make clear what the R code accomplishes.
-    Sample Mean versus Theoretical Mean: Include figures with titles. In the figures, highlight the means you are comparing. Include text that explains the figures and what is shown on them, and provides appropriate numbers.
-    Sample Variance versus Theoretical Variance: Include figures (output from R) with titles. Highlight the variances you are comparing. Include text that explains your understanding of the differences of the variances.
-    Distribution: Via figures and text, explain how one can tell the distribution is approximately normal. 
+This report will compare the expontential distrbution against the normalized central limit theorem. The report will show how to tell if a distribution is approximately normal.
 
 ##Simulations
 
-The following code is the code to create the simulation data. The code will setup an expontential distribution as well as its assocaited means and variability.
+The following code is the code to create the simulation data. The code will setup an expontential distribution as well as its assocaited means and variability. The simulations are running expotential distrubtions of 40 times with a rate of 0.2 The means and variability are stored for future usage. It will also save the overall mean and variance of the simluations done.
 
 ```{r}
 library(ggplot2)
@@ -31,26 +24,40 @@ lambda = .2
 sample_mean = 0
 sample_var = 0
 for(i in 1:1000){
-    sample_mean[i] = mean(rexp(40,lambda))
-    sample_var[i] = var(rexp(40,lambda))    
+    sample_mean[i] = mean(rexp(40,lambda))  
+}
+for(i in 1:1000){
+    sample_var[i] = var(sample(sample_mean, 40, replace=FALSE))    
 }
 
-sample_mean = as.data.frame(sample_mean)
-
 sample.mean = mean(sample_mean)
-sample.var = var(sample_var)
+sample.var = var(sample_mean)
+
+sample_mean = as.data.frame(sample_mean)
+sample_var = as.data.frame(sample_var)
 ```
 
-Sample Means vs Theoretial Mean
+##Sample Means vs Theoretial Mean
 
 ```{r, echo=FALSE}
 ggplot(sample_mean, aes(x=sample_mean)) + 
-    geom_density() +
-    geom_vline(xintercept=sample.mean, size = 1, color = 'red') 
+    geom_histogram(aes(y=..density..),fill="blue") +
+    geom_vline(xintercept=sample.mean, size = 1, color = 'red') +
+    labs(title="Sample Distribution of the Mean") + 
+    stat_function(fun = dnorm,args=list(mean=5), binwidth=30, colour = "black")
+
 ```
 
-The above figure shows the distribution of sampled means against the population mean. 
+The above figure shows the distribution of sampled means against the population mean. As can be seen in the plot above, the distribution of the sample mean is close to the actual theoretical value of the population mean of 'r sample_mean'. The black line is the overlaid normal distribution. The exponential distribution roughly follows the normal distribution. 
 
+
+##Sample Variance vs Theoretical Variance
 ```{r, echo=FALSE}
-hist(sample_var, col="gray", main="Sampling Distribution of the Variance", xlab="Sample Variance")
+ggplot(sample_var, aes(x=sample_var)) + 
+    geom_histogram(aes(y=..density..),fill="blue") +
+    geom_vline(xintercept=sample.var, size = 1, color = 'red') +
+    labs(title="Sample Distribution of the Variance")
 ```
+
+The above figure shows the distribution of sampled variances against the theoretical variance of 'r sample.var'. The theoretical variance is ((1/lambda)^2)/n  which is 0.625. The variance of the samples is 'r sample.var' which is close to the theoretical value.
+

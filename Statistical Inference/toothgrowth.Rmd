@@ -1,27 +1,61 @@
 ---
 title: "Toothgrowth Analysis"
-output: pdf_document
+output: html_document
 ---
 
-Some criteria that you will be evaluated on
+## Summary
 
-    Did you  perform an exploratory data analysis of at least a single plot or table highlighting basic features of the data?
-    Did the student perform some relevant confidence intervals and/or tests?
-    Were the results of the tests and/or intervals interpreted in the context of the problem correctly? 
-    Did the student describe the assumptions needed for their conclusions?
+The data analyzed comes from the toothgrowth data in which the effects of vitamin c in response to tooth growth in guinea pigs were measured. There seems to be a difference in lower dosages for both vitamin c and orange juice, however larger dosages appeared to have yielded no difference in effects.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## Exploratory Analysis
 
 ```{r}
-summary(cars)
+data(ToothGrowth)
+
+library(ggplot2)
+
+ggplot(ToothGrowth, aes(x = factor(dose), y = len, fill = factor(dose))) +
+       geom_boxplot() +
+       facet_grid(.~supp) +
+       labs(title = "Tooth Length vs. Dose between treatments: OJ(Orange Juice) & VC(Asocrbic Acid)",
+       x = "Doses", y = "Tooth Length") +
+       scale_fill_discrete(name="Dosages")
 ```
 
-You can also embed plots, for example:
+Preliminary analysis which shows from that the data that an increase in dosage tended to increase the tooth length of guninea pigs. There appears to be significant difference in the asorbic acid treatment in higher dosages and high variation within the orange juice set.
 
+## Statistical Analysis
+
+### CI 95% of dosage 0.5
 ```{r, echo=FALSE}
-plot(cars)
+ac = ToothGrowth$len[ToothGrowth$supp == 'VC' & ToothGrowth$dose == 0.5]
+oj = ToothGrowth$len[ToothGrowth$supp == 'OJ' & ToothGrowth$dose == 0.5]
+
+t.test(ac,oj)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The 95% confidence interval of dosage 0.5 is between -8.78 to -1.72. We are 95% confident that the true value between the two are in that range. The range does not encompass 0, meaning that there does seem to be a difference in the dosage of different supplements.
+
+### CI 95% of dosage 1
+```{r, echo=FALSE}
+ac = ToothGrowth$len[ToothGrowth$supp == 'VC' & ToothGrowth$dose == 1.0]
+oj = ToothGrowth$len[ToothGrowth$supp == 'OJ' & ToothGrowth$dose == 1.0]
+
+t.test(ac,oj)
+```
+
+The 95% confidence interval of dosage 1.0 is between -9.06 to -2.80. We are 95% confident that the true value between the two are in that range. The range does not encompass 0, meaning that there does seem to be a difference in the dosage of different supplements.
+
+
+### CI 95% of dosage 2
+```{r, echo=FALSE}
+ac = ToothGrowth$len[ToothGrowth$supp == 'VC' & ToothGrowth$dose == 2.0]
+oj = ToothGrowth$len[ToothGrowth$supp == 'OJ' & ToothGrowth$dose == 2.0]
+
+t.test(ac,oj)
+```
+
+The 95% confidence interval of dosage 2.0 is between -3.64 to 3.8. We are 95% confident that the true value between the two are in that range. The range does encompasses 0, meaning that there might be no difference between the two supplements at a dosage of 2mg.
+
+##Conclusion
+In dosage 0.5 and 1, the effects exhibited the two different delivery methods, orange juice and asorbic acid, both apepared to have both increased the teeth length of the test guinea pigs. In dosage 0.5, the 95% confidence level were between -8.78 to -1.72, showing that the dosage seemed to have made an effect. In dosage 1.0, the 95% confidence level were between -9.06 to -2.8, meaning that we are 95% certain that the true difference is in the range and thus the treatment made a difference. In dosage of 2.0 however, the 95% confidence level were between -3.64 to 3.8, which means that the treatment at high dosages may be the same.

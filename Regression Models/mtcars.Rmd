@@ -5,10 +5,13 @@ output: html_document
 
 ##Overview
 
-
+The data from mtcars will be looked at and analyzed to determine the relationship between the miles per gallon and whether or not the cars are automatic or manual.
 
 ```{r}
 library(ggplot2)
+
+auto = subset(mtcars, mtcars$am == 0)
+man = subset(mtcars, mtcars$am == 1)
 
 mtcars
 ```
@@ -16,10 +19,11 @@ mtcars
 ##Exploratory Analysis
 
 ```{r, echo=FALSE}
-
+ggplot(mtcars, aes(x=am, y=mpg)) + geom_point() + labs(title='Transmission vs MPG', x='Transmission(Auto=0, Man = 1)')
 
 ```
 
+As can be seen in the figure above, manual cars appear to have a higher maximum mpg and minimum mpg. The range in mpg widely varies amongst  manual cars compared to automatic.
 
 ##Regression modeling
 ```{r, echo=FALSE}

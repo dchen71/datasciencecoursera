@@ -27,16 +27,11 @@ ggplot(mtcars, aes(x=am, y=mpg)) + geom_point() + labs(title='Transmission vs MP
 As can be seen in the figure above, manual cars appear to have a higher maximum mpg and minimum mpg. The range in mpg widely varies amongst  manual cars compared to automatic.
 
 ```{r}
-#Auto
-summary(auto$mpg)
-sd(auto$mpg)
-#Man
-summary(man$mpg)
-sd(man$mpg)
-
+t.test(man$mpg, auto$mpg)
 ```
 
-As can be seen in the summaries and standard deviations of the mpg between manual and automatic, automatic cars tend to have similar mpg which does not nearly vary as much as manual transmission cars. 
+As can be seen int two item T test of both the manual and automatic transmissions, there is a 95% confidence interval of 3.21-11.28 showing that there is likely to be some difference between manual and automatic transmissions. The p value is low enough to reject the notion that there is no difference between mpg amongst transmissions.
+
 
 ```{r, echo=FALSE}
 p1 = ggplot(auto, aes(x=cyl, y=mpg)) + geom_point() + labs(title='Cylinders vs MPG(Automatic)')

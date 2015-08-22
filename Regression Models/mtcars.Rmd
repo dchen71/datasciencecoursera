@@ -9,6 +9,7 @@ The data from mtcars will be looked at and analyzed to determine the relationshi
 
 ```{r}
 library(ggplot2)
+require(gridExtra)
 
 auto = subset(mtcars, mtcars$am == 0)
 man = subset(mtcars, mtcars$am == 1)
@@ -24,6 +25,26 @@ ggplot(mtcars, aes(x=am, y=mpg)) + geom_point() + labs(title='Transmission vs MP
 ```
 
 As can be seen in the figure above, manual cars appear to have a higher maximum mpg and minimum mpg. The range in mpg widely varies amongst  manual cars compared to automatic.
+
+```{r}
+#Auto
+summary(auto$mpg)
+sd(auto$mpg)
+#Man
+summary(man$mpg)
+sd(man$mpg)
+
+```
+
+As can be seen in the summaries and standard deviations of the mpg between manual and automatic, automatic cars tend to have similar mpg which does not nearly vary as much as manual transmission cars. 
+
+```{r, echo=FALSE}
+p1 = ggplot(auto, aes(x=cyl, y=mpg)) + geom_point() + labs(title='Cylinders vs MPG(Automatic)')
+p2 = ggplot(man, aes(x=cyl, y=mpg)) + geom_point() + labs(title='Cylinders vs MPG(Manual)')
+grid.arrange(p1,p2)
+```
+
+In addition, it appears that the milage is highly dependent on the cylinders in the engine that a car posses in both types of transmissions.
 
 ##Regression modeling
 ```{r, echo=FALSE}

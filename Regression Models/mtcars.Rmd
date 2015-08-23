@@ -7,18 +7,26 @@ output: html_document
 
 The data from mtcars will be looked at and analyzed to determine the relationship between the miles per gallon and whether or not the cars are automatic or manual.
 
+##Exploratory Analysis
+
+The data is first loaded and subseted/converted to factors
 ```{r}
 library(ggplot2)
 require(gridExtra)
 
+data(mtcars)
+
+mtcars$transmission = as.factor(mtcars$am)
+mtcars$cylinders = as.factor(mtcars$cyl)
+mtcars$gears = as.factor(mtcars$gear)
+mtcars$carburetors = as.factor(mtcars$carb)
+mtcars$vs = as.factor(mtcars$vs)
+
 auto = subset(mtcars, mtcars$am == 0)
 man = subset(mtcars, mtcars$am == 1)
-
-mtcars
 ```
 
-##Exploratory Analysis
-
+A quick plot is setup in order to see how the data is distributed amonst transmission and mpg
 ```{r, echo=FALSE}
 ggplot(mtcars, aes(x=am, y=mpg)) + geom_point() + labs(title='Transmission vs MPG', x='Transmission(Auto=0, Man = 1)')
 
@@ -30,20 +38,16 @@ As can be seen in the figure above, manual cars appear to have a higher maximum 
 t.test(man$mpg, auto$mpg)
 ```
 
-As can be seen int two item T test of both the manual and automatic transmissions, there is a 95% confidence interval of 3.21-11.28 showing that there is likely to be some difference between manual and automatic transmissions. The p value is low enough to reject the notion that there is no difference between mpg amongst transmissions.
-
-
-```{r, echo=FALSE}
-p1 = ggplot(auto, aes(x=cyl, y=mpg)) + geom_point() + labs(title='Cylinders vs MPG(Automatic)')
-p2 = ggplot(man, aes(x=cyl, y=mpg)) + geom_point() + labs(title='Cylinders vs MPG(Manual)')
-grid.arrange(p1,p2)
-```
-
-In addition, it appears that the milage is highly dependent on the cylinders in the engine that a car posses in both types of transmissions.
+In addition, as can be seen in the two item T test of both the manual and automatic transmissions, there is a 95% confidence interval of 3.21-11.28 showing that there is likely to be some difference between manual and automatic transmissions. The p value is low enough to reject the notion that there is no difference between mpg amongst transmissions and that manual is better for mpg than automatic.
 
 ##Regression modeling
-```{r, echo=FALSE}
-
+```{r}
+model1 = lm(mpg ~ ., data=mtcars)
+summary(model1)
 ```
 
+A preliminary linear model on the mtcars dataset shows that mpg is not highly dependent on any of the independent variables. However, the coffecient of am is about 2.52023 which means that assuming all other variables remain constant, as the value goes higher(car is manual), there is a greater effect on the mpg. 
+
+
 ##Summary
+

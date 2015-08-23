@@ -9,17 +9,17 @@ The data from mtcars will be looked at and analyzed to determine the relationshi
 
 ##Exploratory Analysis
 
-The data is first loaded and subseted/converted to factors
+The data is first loaded and converted to factors
 ```{r}
 library(ggplot2)
 require(gridExtra)
 
 data(mtcars)
 
-mtcars$transmission = as.factor(mtcars$am)
-mtcars$cylinders = as.factor(mtcars$cyl)
-mtcars$gears = as.factor(mtcars$gear)
-mtcars$carburetors = as.factor(mtcars$carb)
+mtcars$am = as.factor(mtcars$am)
+mtcars$cyl = as.factor(mtcars$cyl)
+mtcars$gear = as.factor(mtcars$gear)
+mtcars$car = as.factor(mtcars$carb)
 mtcars$vs = as.factor(mtcars$vs)
 
 auto = subset(mtcars, mtcars$am == 0)
@@ -38,7 +38,7 @@ As can be seen in the figure above, manual cars appear to have a higher maximum 
 t.test(man$mpg, auto$mpg)
 ```
 
-In addition, as can be seen in the two item T test of both the manual and automatic transmissions, there is a 95% confidence interval of 3.21-11.28 showing that there is likely to be some difference between manual and automatic transmissions. The p value is low enough to reject the notion that there is no difference between mpg amongst transmissions and that manual is better for mpg than automatic.
+In addition, as can be seen in the two item T test of both the manual and automatic transmissions, there is a 95% confidence interval of 3.21-11.28 showing that there is likely to be some difference between manual and automatic transmissions. The p value is low enough to reject the notion that there is no difference between mpg amongst transmissions and that manual is better for mpg than automatic. In addition, the difference in the means can be easily seen with manual have an average mpg of 24.39 and automatic have an anverage of 17.1
 
 ##Regression modeling
 ```{r}
@@ -46,8 +46,34 @@ model1 = lm(mpg ~ ., data=mtcars)
 summary(model1)
 ```
 
-A preliminary linear model on the mtcars dataset shows that mpg is not highly dependent on any of the independent variables. However, the coffecient of am is about 2.52023 which means that assuming all other variables remain constant, as the value goes higher(car is manual), there is a greater effect on the mpg. 
+A preliminary linear model on the mtcars dataset blindly checking the effect other variables would have on the mpg shows that mpg is not highly dependent on any of the independent variables. However, the coffecient of am is about 2.52023 which means that assuming all other variables remain constant, as the value goes higher(car is manual), there is a greater effect on the mpg. The next model will try using only cofficients which are higher than 1. 
 
+```{r}
+model2 = lm(mpg ~ . - cyl - disp - hp - wt - qsec - car, data=mtcars)
+summary(model2)
+anova(model1, model2)
+```
+Model2 was built with high coffecients however, as we can see using anova, the new model is not significantly different from the first one. 
 
-##Summary
+```{r}
+data(mtcars)
+sort(cor(mtcars)[1,])
+```
+
+The correlation of the data is checked to see which variables are related to mpg. wt, cyl, disp, and hp all appear to be highly correlated to mpg. disp and cyl appear correlated to one another and would be as higher cylinders in a engine would be capable of greater displacement. wt and hp would generally be typical logical guesses to indicators of mpg.
+
+```{r}
+model3 = lm(mpg ~ am + wt + hp, data=mtcars)
+summary(model3)
+anova(model1, model3)
+```
+
+Model3 is not signficantly better than using every variable however, it's variables in determining the mpg are individually much more significant to determing the mpg.
+
+```{r, echo=FALSE}
+par(mfrow = c(2,2))
+plot(model3)
+```
+
+In addition, the residuals appear normally distributed on the Q-Q graph, and there are no obvious patterns on the residuals vs fitted on the distribution of residuals. 
 

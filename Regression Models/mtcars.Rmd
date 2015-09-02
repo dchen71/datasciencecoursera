@@ -28,8 +28,7 @@ man = subset(mtcars, mtcars$am == 1)
 
 A quick plot is setup in order to see how the data is distributed amonst transmission and mpg
 ```{r, echo=FALSE}
-ggplot(mtcars, aes(x=am, y=mpg)) + geom_point() + labs(title='Transmission vs MPG', x='Transmission(Auto=0, Man = 1)')
-
+ggplot(mtcars, aes(x=am, y=mpg)) + geom_boxplot(data=mtcars) + labs(title='Transmission vs MPG', x='Transmission(Auto=0, Man = 1)')
 ```
 
 As can be seen in the figure above, manual cars appear to have a higher maximum mpg and minimum mpg. The range in mpg widely varies amongst  manual cars compared to automatic.

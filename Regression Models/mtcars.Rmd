@@ -55,19 +55,20 @@ sort(cor(mtcars)[1,])
 The correlation of the data is checked to see which variables are related to mpg. wt, cyl, disp, and hp all appear to be highly correlated to mpg. disp and cyl appear correlated to one another and would be as higher cylinders in a engine would be capable of greater displacement. wt and hp would generally be typical logical guesses to indicators of mpg.
 
 ```{r}
-model3 = lm(mpg ~ am + wt + hp, data=mtcars)
-summary(model3)
-anova(model1, model3)
+model2 = lm(mpg ~ am + wt + hp, data=mtcars)
+summary(model2)
+anova(model1, model2)
 ```
 
 Model3 is not signficantly better than the first model however, it's variables in determining the mpg are individually much more significant to determing the mpg.
 
 ```{r, echo=FALSE}
 par(mfrow = c(2,2))
-plot(model3)
+plot(model2)
 ```
 
 In addition, the residuals appear normally distributed on the Q-Q graph, and there are no obvious patterns on the residuals vs fitted on the distribution of residuals. 
 
 ##Summary
 
+The transmission of the car certainly plays a role in the mpg of the car. A 95% T test of the transmission of the cars to mpg shows that they are not the same and is significantly significant. In addition, a model for mpg using the transmission, weight and horsepower for the dependent variables can compensate for about 84% of the variation. It should be noted that it is an extremely small sample size and using data from 1974 and is in no way represenative of cars of today.

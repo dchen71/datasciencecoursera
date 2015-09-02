@@ -5,7 +5,7 @@ output: html_document
 
 ##Overview
 
-The data from mtcars will be looked at and analyzed to determine the relationship between the miles per gallon and whether or not the cars are automatic or manual.
+The data from mtcars will be looked at and analyzed to determine the relationship between the miles per gallon and the transmission of the car.
 
 ##Exploratory Analysis
 
@@ -45,14 +45,7 @@ model1 = lm(mpg ~ ., data=mtcars)
 summary(model1)
 ```
 
-A preliminary linear model on the mtcars dataset blindly checking the effect other variables would have on the mpg shows that mpg is not highly dependent on any of the independent variables. However, the coffecient of am is about 2.52023 which means that assuming all other variables remain constant, as the value goes higher(car is manual), there is a greater effect on the mpg. The next model will try using only cofficients which are higher than 1. 
-
-```{r}
-model2 = lm(mpg ~ . - cyl - disp - hp - wt - qsec - car, data=mtcars)
-summary(model2)
-anova(model1, model2)
-```
-Model2 was built with high coffecients however, as we can see using anova, the new model is not significantly different from the first one. 
+A preliminary linear model on the mtcars dataset blindly checking the effect other variables would have on the mpg shows that mpg is not highly dependent on any of the independent variables. However, the coffecient of am is about 2.52023 which means that it has a greater weight in determining the mpg, as the value goes higher(car is manual).  
 
 ```{r}
 data(mtcars)
@@ -67,7 +60,7 @@ summary(model3)
 anova(model1, model3)
 ```
 
-Model3 is not signficantly better than using every variable however, it's variables in determining the mpg are individually much more significant to determing the mpg.
+Model3 is not signficantly better than the first model however, it's variables in determining the mpg are individually much more significant to determing the mpg.
 
 ```{r, echo=FALSE}
 par(mfrow = c(2,2))
@@ -75,4 +68,6 @@ plot(model3)
 ```
 
 In addition, the residuals appear normally distributed on the Q-Q graph, and there are no obvious patterns on the residuals vs fitted on the distribution of residuals. 
+
+##Summary
 

@@ -10,7 +10,9 @@ Overview
 
 This report will show off a model which will predict the manner in which a person lifted barbells using accelerometer data from indiviauls working out
 
-##Exploratory Data Analysis
+##Data
+
+First the data will be loaded.
 
 ```{r}
 library(ggplot2)
@@ -19,6 +21,17 @@ train = read.csv('pml-training.csv')
 test = read.csv('pml-testing.csv')
 ```
 
+###Preprocessing
+
+The data will first need to be cleaned up. The variables containing entries, names, as well as time and trials are removed.
+
+```{r}
+train = train[,-1:-7]
+test = test[,-1:-7]
+```
+
+
+###Exploratory Analysis
 
 The goal of the model is to be able to predict which of the classes that a person's method of lifting barbells correspond to. As can be seen in the table below, there are five classes with the majority of methodology falling under category A.
 
@@ -29,11 +42,14 @@ table(train$classe)
 
 
 
-##Sample Means vs Theoretial Mean
+##Model Training
 
 ```{r, echo=FALSE}
 
 
 ```
 
+##Model Validation
+
+##Prediction
 

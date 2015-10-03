@@ -12,14 +12,22 @@ This report will show off a model which will predict the manner in which a perso
 
 ##Exploratory Data Analysis
 
-
-
 ```{r}
 library(ggplot2)
 
 train = read.csv('pml-training.csv')
 test = read.csv('pml-testing.csv')
 ```
+
+
+The goal of the model is to be able to predict which of the classes that a person's method of lifting barbells correspond to. As can be seen in the table below, there are five classes with the majority of methodology falling under category A.
+
+```{r}
+table(train$classe)
+
+```
+
+
 
 ##Sample Means vs Theoretial Mean
 

@@ -1,0 +1,31 @@
+---
+title: "Predicting the method of exercise"
+output: html_document
+---
+
+#Proving the Central Limit Theorem
+dchen71
+
+Overview
+
+This report will show off a model which will predict the manner in which a person lifted barbells using accelerometer data from indiviauls working out
+
+##Exploratory Data Analysis
+
+
+
+```{r}
+library(ggplot2)
+
+train = read.csv('pml-training.csv')
+test = read.csv('pml-testing.csv')
+```
+
+##Sample Means vs Theoretial Mean
+
+```{r, echo=FALSE}
+
+
+```
+
+

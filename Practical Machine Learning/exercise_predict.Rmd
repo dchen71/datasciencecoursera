@@ -17,8 +17,8 @@ First the data will be loaded.
 ```{r}
 library(ggplot2)
 
-train = read.csv('pml-training.csv')
-test = read.csv('pml-testing.csv')
+train = read.csv('pml-training.csv', na.strings = c("", "NA"))
+test = read.csv('pml-testing.csv', na.strings = c("", "NA"))
 ```
 
 ###Preprocessing

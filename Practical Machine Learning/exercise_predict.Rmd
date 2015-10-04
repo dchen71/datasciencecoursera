@@ -29,6 +29,10 @@ The data will first need to be cleaned up. The variables containing entries, nam
 train = train[,-1:-7]
 test = test[,-1:-7]
 
+#Remove all columns but the actual gyros data with > 0.5 NAs(remove the min/max features already in data)
+train = train[, colSums(is.na(train)) < nrow(train) * 0.5]
+test$classe = 'dummy'
+test = test[,names(train)]
 ```
 
 Before a model can be trained and tested, the data from train is split up in a 60/40 ratio for model training and validation using the caret package.

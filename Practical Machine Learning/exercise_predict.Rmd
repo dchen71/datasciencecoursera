@@ -3,10 +3,7 @@ title: "Predicting the method of exercise"
 output: html_document
 ---
 
-#Predicting the method of exercise
-dchen71
-
-Overview
+##Overview
 
 This report will show off a model which will predict the manner in which a person lifted barbells using accelerometer data from individuals working out
 

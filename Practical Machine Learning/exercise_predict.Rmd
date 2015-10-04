@@ -111,6 +111,8 @@ rfTrain = randomForest(classe ~ .,train)
 predRF = predict(rfTrain, newdata = test)
 ```
 
+The random forest model predicts accurately all 20 cases of the manner of activity.
+
 ```{R}
 #CART
 # Perform the cross validation which shows .001 seemed to have lowest r^2
@@ -122,3 +124,9 @@ CARTmodel = rpart(classe ~ ., train, method="class",cp=.001)
 #Predictions on our test set and accuracy
 predCART = predict(CARTmodel, newdata=test, type="class")
 ```
+
+The CART model predicts accurately 18/20 cases of manners of activity recorded.
+
+##Summary
+
+The random forest model in this case more accurate in determining the manner of lifting dumbells that the participants did. The CART model did not predict as well as the random forest. 

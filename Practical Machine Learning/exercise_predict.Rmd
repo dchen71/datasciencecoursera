@@ -65,6 +65,8 @@ Two models will be setup to find which is more accurate in the actual test set. 
 
 ###Random Forest
 
+A random forest model is setup using every variable as a predictor for classe.
+
 ```{r}
 #Using a random forest model for classification
 library(randomForest)
@@ -75,6 +77,7 @@ predTest = predict(rfModel, newdata = testset)
 print(confusionMatrix(predTest, testset$classe))
 ```
 
+As can be seen from the confusion matrix, the random forest model has a accuracy of 0.9943 from the predictions using the testset data, which is very accurate. There is still a chance of overfitting which may be seen with the actual new data.
 
 ###CART
 
@@ -84,7 +87,7 @@ numFolds = trainControl( method = "cv", number = 10 )
 cpGrid = expand.grid( .cp = seq(0.01,0.5,0.01)) 
 
 # Perform the cross validation which shows .01 seemed to have lowest r^2
-train(classe~ ., data = trainset, method = "rpart", trControl = numFolds, tuneGrid = cpGrid )
+train(classe ~ ., data = trainset, method = "rpart", trControl = numFolds, tuneGrid = cpGrid )
 
 #CART regression model using all of the variables
 trainCART = rpart(classe ~ ., trainset, method="class",cp=.01)
@@ -97,3 +100,8 @@ print(confusionMatrix(predCART, testset$classe))
 
 ##Prediction
 
+```{R}
+#Random Forest
+rfTrain = randomForest(classe ~ .,train)
+predRF = predict(rfTrain, newdata = test)
+```

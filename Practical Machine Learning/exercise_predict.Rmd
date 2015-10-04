@@ -8,7 +8,7 @@ dchen71
 
 Overview
 
-This report will show off a model which will predict the manner in which a person lifted barbells using accelerometer data from indiviauls working out
+This report will show off a model which will predict the manner in which a person lifted barbells using accelerometer data from individuals working out
 
 ##Data
 

@@ -57,7 +57,12 @@ The goal of the model is to be able to predict which of the classes that a perso
 table(train$classe)
 ```
 
+```{r}
+avg_values = aggregate(. ~ classe,train,mean)
+print(avg_values)
+```
 
+In addition, in the data frame above, the averages per manner of barbell lifting is shown and shows some distinct differences in certain accelerometer data. 
 
 ##Model Training and Validation
 
@@ -129,4 +134,4 @@ The CART model predicts accurately 18/20 cases of manners of activity recorded.
 
 ##Summary
 
-The random forest model in this case more accurate in determining the manner of lifting dumbells that the participants did. The CART model did not predict as well as the random forest. 
+The random forest model in this case more accurate in determining the manner of lifting dumbells that the participants did. The CART model did not predict as well as the random forest but may perform better in a different testing set. 

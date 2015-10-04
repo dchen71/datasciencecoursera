@@ -33,6 +33,7 @@ test = test[,-1:-7]
 train = train[, colSums(is.na(train)) < nrow(train) * 0.5]
 test$classe = 'dummy'
 test = test[,names(train)]
+test$classe = NULL
 ```
 
 Before a model can be trained and tested, the data from train is split up in a 60/40 ratio for model training and validation using the caret package.
@@ -54,16 +55,25 @@ The goal of the model is to be able to predict which of the classes that a perso
 
 ```{r}
 table(train$classe)
-
 ```
 
 
 
 ##Model Training
 
-
+```{r}
+#Using a random forest model for classification
+library(randomForest)
+rfModel = randomForest(classe ~ .,trainset)
+```
 
 ##Model Validation
+
+###Training set accuracy
+```{r}
+predTrain = predict(rfModel, trainset)
+print(confusionMatrix(predTrain, trainset$classe))
+```
 
 ##Prediction
 

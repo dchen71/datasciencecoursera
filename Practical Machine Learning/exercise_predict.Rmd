@@ -15,8 +15,6 @@ This report will show off a model which will predict the manner in which a perso
 First the data will be loaded.
 
 ```{r}
-library(ggplot2)
-
 #Load data and convert blanks, divide by 0, into NA
 train = read.csv('pml-training.csv', na.strings = c("", "NA", '#DIV/0!'))
 test = read.csv('pml-testing.csv', na.strings = c("", "NA",'#DIV/0!'))
@@ -33,6 +31,18 @@ test = test[,-1:-7]
 
 ```
 
+Before a model can be trained and tested, the data from train is split up in a 60/40 ratio for model training and validation using the caret package.
+
+```{r, echo=FALSE}
+library(caret)
+
+#Set seed for consistent partitioning
+set.seed(100)
+
+part = createDataPartition(train$classe, p = 0.6, list = FALSE)
+trainset = train[part,]
+testset = train[-part,]
+```
 
 ###Exploratory Analysis
 
@@ -47,10 +57,7 @@ table(train$classe)
 
 ##Model Training
 
-```{r, echo=FALSE}
 
-
-```
 
 ##Model Validation
 

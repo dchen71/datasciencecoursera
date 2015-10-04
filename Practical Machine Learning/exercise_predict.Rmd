@@ -3,7 +3,7 @@ title: "Predicting the method of exercise"
 output: html_document
 ---
 
-#Proving the Central Limit Theorem
+#Predicting the method of exercise
 dchen71
 
 Overview

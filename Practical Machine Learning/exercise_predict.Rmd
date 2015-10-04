@@ -81,22 +81,25 @@ As can be seen from the confusion matrix, the random forest model has a accuracy
 
 ###CART
 
+A CART model is setup using every variable as a predictor for classe. The cp to help with making the model is determined using cross validation to find the optimal accruacy.
+
 ```{R}
 # Define cross-validation experiment
 numFolds = trainControl( method = "cv", number = 10 )
-cpGrid = expand.grid( .cp = seq(0.01,0.5,0.01)) 
+cpGrid = expand.grid( .cp = seq(0.001,0.05,0.005)) 
 
-# Perform the cross validation which shows .01 seemed to have lowest r^2
+# Perform the cross validation which shows .001 seemed to have lowest r^2
 train(classe ~ ., data = trainset, method = "rpart", trControl = numFolds, tuneGrid = cpGrid )
 
 #CART regression model using all of the variables
-trainCART = rpart(classe ~ ., trainset, method="class",cp=.01)
+trainCART = rpart(classe ~ ., trainset, method="class",cp=.001)
 
 #Predictions on our test set and accuracy
 predCART = predict(trainCART, newdata=testset, type="class")
 print(confusionMatrix(predCART, testset$classe))
-
 ```
+
+As can be seen in the confusion model above, the CART model is 0.9047 accurate which is lower than the random forest however, it may be underfitting this data set and may perform better in the actual test set.
 
 ##Prediction
 

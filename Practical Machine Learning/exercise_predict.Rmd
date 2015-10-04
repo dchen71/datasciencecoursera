@@ -75,5 +75,29 @@ predTrain = predict(rfModel, trainset)
 print(confusionMatrix(predTrain, trainset$classe))
 ```
 
+###Test set accuracy
+```{r}
+predTest = predict(rfModel, newdata = testset)
+print(confusionMatrix(predTest, testset$classe))
+```
+
+```{R}
+# Define cross-validation experiment
+numFolds = trainControl( method = "cv", number = 10 )
+cpGrid = expand.grid( .cp = seq(0.01,0.5,0.01)) 
+
+# Perform the cross validation which shows .01 seemed to have lowest r^2
+train(classe~ ., data = trainset, method = "rpart", trControl = numFolds, tuneGrid = cpGrid )
+
+#CART regression model using all of the variables
+trainCART = rpart(classe ~ ., trainset, method="class",cp=.01)
+
+#Predictions on our test set:
+predCART = predict(trainCART, newdata=testset, type="class")
+
+print(confusionMatrix(predCART, testset$classe))
+
+
+```
 ##Prediction
 

@@ -59,27 +59,24 @@ table(train$classe)
 
 
 
-##Model Training
+##Model Training and Validation
+
+Two models will be setup to find which is more accurate in the actual test set. Both a random forest model and cart model will be used due to their specialities in multi-class classification problems.
+
+###Random Forest
 
 ```{r}
 #Using a random forest model for classification
 library(randomForest)
 rfModel = randomForest(classe ~ .,trainset)
-```
 
-##Model Validation
-
-###Training set accuracy
-```{r}
-predTrain = predict(rfModel, trainset)
-print(confusionMatrix(predTrain, trainset$classe))
-```
-
-###Test set accuracy
-```{r}
+#Test set accuracy
 predTest = predict(rfModel, newdata = testset)
 print(confusionMatrix(predTest, testset$classe))
 ```
+
+
+###CART
 
 ```{R}
 # Define cross-validation experiment
@@ -92,12 +89,11 @@ train(classe~ ., data = trainset, method = "rpart", trControl = numFolds, tuneGr
 #CART regression model using all of the variables
 trainCART = rpart(classe ~ ., trainset, method="class",cp=.01)
 
-#Predictions on our test set:
+#Predictions on our test set and accuracy
 predCART = predict(trainCART, newdata=testset, type="class")
-
 print(confusionMatrix(predCART, testset$classe))
 
-
 ```
+
 ##Prediction
 

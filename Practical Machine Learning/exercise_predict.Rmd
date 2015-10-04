@@ -103,8 +103,22 @@ As can be seen in the confusion model above, the CART model is 0.9047 accurate w
 
 ##Prediction
 
+Both of the random forest and cart models will be used to test the predictions.
+
 ```{R}
 #Random Forest
 rfTrain = randomForest(classe ~ .,train)
 predRF = predict(rfTrain, newdata = test)
+```
+
+```{R}
+#CART
+# Perform the cross validation which shows .001 seemed to have lowest r^2
+train(classe ~ ., data = train, method = "rpart", trControl = numFolds, tuneGrid = cpGrid )
+
+#CART regression model using all of the variables
+CARTmodel = rpart(classe ~ ., trainset, method="class",cp=.001)
+
+#Predictions on our test set and accuracy
+predCART = predict(CARTmodel, newdata=test, type="class")
 ```

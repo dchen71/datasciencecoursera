@@ -1,3 +1,5 @@
+#This app will utilize subsetted training data from Kaggle Competition - San Francisco Crime Classification
+
 library(shiny)
 
 # Define UI for application that draws a histogram

@@ -1,3 +1,6 @@
+#This app will utilize subsetted training data from Kaggle Competition - San Francisco Crime Classification
+
+
 library(shiny)
 
 # Define server logic required to draw a histogram

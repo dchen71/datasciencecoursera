@@ -14,9 +14,9 @@ shinyUI(fluidPage(
             helpText("Choose the categories of crimes to display on the map"),
             checkboxGroupInput("checkGroup", 
                                label = h3("Crime Categories"), 
-                               choices = list("Warrants" = 1, "Vandalism" = 2,
-                                              "Prostitution" = 3, "Bribery" = 4),
-                               selected = c(1,2,3,4))
+                               choices = list("Warrants" = 'WARRANTS', "Vandalism" = 'VANDALISM',
+                                              "Prostitution" = 'PROSTITUTION', "Bribery" = 'BRIBERY'),
+                               selected = c('WARRANTS','VANDALISM','PROSTITUTION','BRIBERY'))
         ),
         
         # Show a plot of the generated distribution

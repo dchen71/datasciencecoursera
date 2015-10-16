@@ -11,13 +11,11 @@ shinyServer(function(input, output) {
     library(dplyr)
     
     #Initializes data
-    train = read.csv("subset.csv")
+    data = read.csv("subset.csv")
 
     map = get_map(location="sanfrancisco",zoom=12,source="osm")
         
     output$locPlot = renderPlot({
-
-        #Function to plot graph of locations of crime for visualization purposes
         map_crime = function(crime_df, crime) {
             filtered = filter(crime_df, Category %in% crime)
             plot = ggmap(map, extent='device') + 
@@ -26,6 +24,6 @@ shinyServer(function(input, output) {
         }
         
         #Plots based on prostitution
-        map_crime(train, c('PROSTITUTION'))
+        map_crime(data, c(input$checkGroup))
     })
 })

@@ -3,21 +3,27 @@
 
 library(shiny)
 
-# Define server logic required to draw a histogram
+# Define server logic required for the app
 shinyServer(function(input, output) {
-    
-    # Expression that generates a histogram. The expression is
-    # wrapped in a call to renderPlot to indicate that:
-    #
-    #  1) It is "reactive" and therefore should re-execute automatically
-    #     when inputs change
-    #  2) Its output type is a plot
-    
-    output$distPlot <- renderPlot({
-        x    <- faithful[, 2]  # Old Faithful Geyser data
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+    output$locPlot = renderPlot({
+        #Loads libraries
+        library(ggmap)
+        library(ggplot2)
+        library(dplyr)
         
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+        #Initializes data
+        train = read.csv("Data/train.csv")
+        map = get_map(location="sanfrancisco",zoom=12,source="osm")
+        
+        #Function to plot graph of locations of crime for visualization purposes
+        map_crime = function(crime_df, crime) {
+            filtered = filter(crime_df, Category %in% crime)
+            plot = ggmap(map, extent='device') + 
+                geom_point(data = filtered, aes(x = X, y = Y, color=Category, alpha=0.5))
+            return(plot)
+        }
+        
+        #Plots based on prostitution
+        map_crime(train, c('PROSTITUTION'))
     })
 })

@@ -23,7 +23,11 @@ shinyServer(function(input, output) {
             return(plot)
         }
         
-        #Plots based on prostitution
-        map_crime(data, c(input$checkGroup))
+        #Plots based on crimes selected in checkGroup
+        if(length(input$checkGroup) != 0)
+            map_crime(data, c(input$checkGroup))
+        else{
+            ggmap(map, extent='device')
+        }
     })
 })

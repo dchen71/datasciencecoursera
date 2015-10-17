@@ -19,7 +19,7 @@ shinyUI(fluidPage(
                                selected = c('WARRANTS','VANDALISM','PROSTITUTION','BRIBERY'))
         ),
         
-        # Show a plot of the generated distribution
+        # Show a plot of the generated distribution of crimes on a map of SF
         mainPanel(
             plotOutput("locPlot")
         )

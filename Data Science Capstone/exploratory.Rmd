@@ -1,0 +1,19 @@
+---
+title: "Capstone Swiftkey Exploratory Analysis"
+output: html_document
+---
+
+This is just some quick exploratory analysis done on the data provided. Anyways, the english data is first loaded.
+
+```{r}
+#Packages
+library(ggplot2)
+
+#Data
+dir = 'input/en_US/'
+train_blogs = readLines(paste0(dir,"en_US.blogs.txt"))
+train_news = readLines(paste0(dir,"en_US.news.txt"))
+train_twitter = readLines(paste0(dir,"en_US.twitter.txt"))
+```
+
+

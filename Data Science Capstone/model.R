@@ -1,8 +1,6 @@
 #Load Packages
 library(tm)
 
-Sys.setlocale(category="LC_ALL", locale = "English_United States.1252")
-
 #Load Data
 dir = 'input/en_US/'
 train_blogs = readLines(paste0(dir,"en_US.blogs.txt"))

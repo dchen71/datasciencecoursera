@@ -3,7 +3,9 @@ title: "Capstone Swiftkey Exploratory Analysis"
 output: html_document
 ---
 
-This is just some quick exploratory analysis done on the training data provided. The goal of the project is to be able to predict the words that follow from it's preceding text. The data comes from three sources: blogs, twitter, and the news.
+##Introduction
+
+The goal of the project is to be able to predict the words that follow from it's preceding text. The data comes from three sources: blogs, twitter, and the news.
 
 Anyways, the english data is first loaded.
 
@@ -38,5 +40,9 @@ train_twitter = sample(twitter, 300000)
 #Combine the datasets and begin to create the corpus of words
 combined_raw = c(train_blogs,  train_news, train_twitter)
 
-dtm_raw = VCorpus(VectorSource(combined_raw))
+corpus = VCorpus(VectorSource(combined_raw))
+corpus = tm_map(corpus, removeNumbers) # remove numbers
+corpus = tm_map(corpus, stripWhitespace) # remove whitespaces
+corpus = tm_map(corpus, tolower) #lowercase all contents
+corpus = tm_map(corpus, removePunctuation) # remove punctuation
 ```

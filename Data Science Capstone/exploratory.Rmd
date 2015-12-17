@@ -3,18 +3,21 @@ title: "Capstone Swiftkey Exploratory Analysis"
 output: html_document
 ---
 
-This is just some quick exploratory analysis done on the training data provided. Anyways, the english data is first loaded.
+This is just some quick exploratory analysis done on the training data provided. The goal of the project is to be able to predict the words that follow from it's preceding text. The data comes from three sources: blogs, twitter, and the news.
+
+Anyways, the english data is first loaded.
 
 ```{r}
 #Packages
 library(ggplot2)
+library(tm)
 
 #Data
 dir = 'input/en_US/'
-train_blogs = readLines(paste0(dir,"en_US.blogs.txt"))
-train_twitter = readLines(paste0(dir,"en_US.twitter.txt"))
+blogs = readLines(paste0(dir,"en_US.blogs.txt"))
+twitter = readLines(paste0(dir,"en_US.twitter.txt"))
 con = file(paste0(dir,"en_US.news.txt"), open="rb")
-train_news = readLines(con, encoding="UTF-8")
+news = readLines(con, encoding="UTF-8")
 close(con)
 ```
 
@@ -22,11 +25,18 @@ close(con)
 ```{r}
 data.frame(dataset=c("train_blogs", "train_news", "train_twitter"), num_lines=(c(length(train_blogs), length(train_news),length(train_twitter))), max_length=c(nchar(train_blogs[which.max(nchar(train_blogs))]), nchar(train_news[which.max(nchar(train_news))]), nchar(train_twitter[which.max(nchar(train_twitter))])))
 ```
-As can be seen in this data frame, twitter seems to have the largest number of elements compared to the other datasets. Blogs has the longest length followed by news. The longest tweet is a bit under the 213 which is odd considering the max length of 140. The data will be subsetted for training data.
+As can be seen in this data frame, twitter seems to have the largest number of elements compared to the other datasets. Blogs has the longest length followed by news. The longest tweet is a bit under the 213 which is odd considering the max length of 140. The data will be sampled for training data.
 
 ```{r}
 #Takes sampling of each data
-train_blogs = sample(train_blogs, 300000)
-train_news = sample(train_news, 300000)
-train_twitter = sample(train_twitter, 300000)
+train_blogs = sample(blogs, 300000)
+train_news = sample(news, 300000)
+train_twitter = sample(twitter, 300000)
+```
+
+```{r}
+#Combine the datasets and begin to create the corpus of words
+combined_raw = c(train_blogs,  train_news, train_twitter)
+
+dtm_raw = VCorpus(VectorSource(combined_raw))
 ```

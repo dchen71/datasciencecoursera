@@ -25,7 +25,7 @@ close(con)
 
 
 ```{r}
-data.frame(dataset=c("train_blogs", "train_news", "train_twitter"), num_lines=(c(length(train_blogs), length(train_news),length(train_twitter))), max_length=c(nchar(train_blogs[which.max(nchar(train_blogs))]), nchar(train_news[which.max(nchar(train_news))]), nchar(train_twitter[which.max(nchar(train_twitter))])))
+data.frame(dataset=c("blogs", "news", "twitter"), num_lines=(c(length(blogs), length(news),length(twitter))), max_length=c(nchar(blogs[which.max(nchar(blogs))]), nchar(news[which.max(nchar(news))]), nchar(twitter[which.max(nchar(twitter))])))
 ```
 As can be seen in this data frame, twitter seems to have the largest number of elements compared to the other datasets. Blogs has the longest length followed by news. The longest tweet is a bit under the 213 which is odd considering the max length of 140. The data will be sampled for training data.
 

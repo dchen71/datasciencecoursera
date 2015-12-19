@@ -41,10 +41,15 @@ train_twitter = sample(twitter, 300000)
 combined_raw = c(train_blogs,  train_news, train_twitter)
 
 corpus = Corpus(VectorSource(combined_raw))
+corpus = tm_map(corpus, PlainTextDocument) #convert to plaintextdocument
 corpus = tm_map(corpus, removeNumbers) # remove numbers
 corpus = tm_map(corpus, stripWhitespace) # remove whitespaces
 corpus = tm_map(corpus, tolower) #lowercase all contents
 corpus = tm_map(corpus, removePunctuation) # remove punctuation
 #consider stemming
 corpus = tm_map(corpus, removeWords, c("fuck", "bitch", "ass", "cunt", "pussy", "asshole", "douche")) #remove some swears
+
+
+#Convert to DocumentTermMatrix and remove sparse terms
+dtm = DocumentTermMatrix(corpus)
 ```

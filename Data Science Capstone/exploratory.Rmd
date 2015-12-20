@@ -13,6 +13,7 @@ Anyways, the english data is first loaded.
 #Packages
 library(ggplot2)
 library(tm)
+library(wordcloud)
 
 #Data
 dir = 'input/en_US/'
@@ -59,4 +60,7 @@ train_words = as.data.frame(as.matrix(common))
 #Finds frequency of terms in text
 freq = colSums(train_words)
 freq = freq[order(freq)]
+
+#Shows the top 50 words in wordcloud format
+wordcloud(words[1:50], freq[1:50], random.order = FALSE, colors=c("black", "blue", "green", "red"))
 ```

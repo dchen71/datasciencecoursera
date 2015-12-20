@@ -56,4 +56,7 @@ dtm = DocumentTermMatrix(corpus)
 common = removeSparseTerms(dtm, 0.995) #keep words in that appear in 99.5%
 train_words = as.data.frame(as.matrix(common))
 
+#Finds frequency of terms in text
+freq = colSums(train_words)
+freq = freq[order(freq)]
 ```

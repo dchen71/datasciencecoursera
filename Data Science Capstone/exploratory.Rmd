@@ -31,9 +31,9 @@ As can be seen in this data frame, twitter seems to have the largest number of e
 
 ```{r}
 #Takes sampling of each data
-train_blogs = sample(blogs, 300000)
-train_news = sample(news, 300000)
-train_twitter = sample(twitter, 300000)
+train_blogs = sample(blogs, 100000)
+train_news = sample(news, 100000)
+train_twitter = sample(twitter, 100000)
 ```
 
 ```{r}
@@ -41,13 +41,13 @@ train_twitter = sample(twitter, 300000)
 combined_raw = c(train_blogs,  train_news, train_twitter)
 
 corpus = Corpus(VectorSource(combined_raw))
-corpus = tm_map(corpus, PlainTextDocument) #convert to plaintextdocument
 corpus = tm_map(corpus, removeNumbers) # remove numbers
 corpus = tm_map(corpus, stripWhitespace) # remove whitespaces
 corpus = tm_map(corpus, tolower) #lowercase all contents
 corpus = tm_map(corpus, removePunctuation) # remove punctuation
 #consider stemming
 corpus = tm_map(corpus, removeWords, c("fuck", "bitch", "ass", "cunt", "pussy", "asshole", "douche")) #remove some swears
+corpus = tm_map(corpus, PlainTextDocument) #convert to plaintextdocument
 
 
 #Convert to DocumentTermMatrix and remove sparse terms

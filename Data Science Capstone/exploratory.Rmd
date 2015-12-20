@@ -62,5 +62,6 @@ freq = colSums(train_words)
 freq = freq[order(freq)]
 
 #Shows the top 50 words in wordcloud format
-wordcloud(words[1:50], freq[1:50], random.order = FALSE, colors=c("black", "blue", "green", "red"))
+pal = brewer.pal(5, "Dark2")
+wordcloud(words, freq, random.order = FALSE, colors=pal, max.words=50, scale=c(8,.3))
 ```

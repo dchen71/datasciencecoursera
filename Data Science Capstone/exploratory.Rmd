@@ -14,6 +14,7 @@ Anyways, the english data is first loaded.
 library(ggplot2)
 library(tm)
 library(wordcloud)
+library(RWeka)
 
 #Data
 dir = 'input/en_US/'

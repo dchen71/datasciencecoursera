@@ -53,7 +53,7 @@ corpus = tm_map(corpus, PlainTextDocument) #convert to plaintextdocument
 #Convert to DocumentTermMatrix and remove sparse terms
 dtm = DocumentTermMatrix(corpus)
 
-common = removeSparseTerms(dtm, 0.95) #keep words in that appear in 95%
+common = removeSparseTerms(dtm, 0.995) #keep words in that appear in 99.5%
 train_words = as.data.frame(as.matrix(common))
 
 ```

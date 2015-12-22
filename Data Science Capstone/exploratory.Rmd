@@ -52,20 +52,15 @@ corpus = tm_map(corpus, PlainTextDocument) #convert to plaintextdocument
 
 
 #Convert to DocumentTermMatrix and remove sparse terms
-dtm = DocumentTermMatrix(corpus)
+ngram1 = DocumentTermMatrix(corpus)
 
-common = removeSparseTerms(dtm, 0.995) #keep words in that appear in 99.5%
+ngram1 = removeSparseTerms(dtm, 0.995) #keep words in that appear in 99.5%
 ngram1 = as.data.frame(as.matrix(common))
 
-#Finds frequency of terms in text
-freq = colSums(ngram1)
-freq = freq[order(freq)]
-
-#Shows the top 50 words in wordcloud format
-pal = brewer.pal(5, "Dark2")
-wordcloud(words, freq, random.order = FALSE, colors=pal, max.words=50, scale=c(8,.3))
-#Finds freq terms of at least 50
-findFreqTerms(dtm, lowfreq=50)
+#Word cloud of the most frequent words
+word_freqs = sort(colSums(ngram1), decreasing=TRUE) 
+dm = data.frame(word=names(word_freqs), freq=word_freqs)
+wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"), max.words=100)
 ```
 
 

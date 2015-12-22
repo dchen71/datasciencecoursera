@@ -65,14 +65,14 @@ freq = freq[order(freq)]
 #Shows the top 50 words in wordcloud format
 pal = brewer.pal(5, "Dark2")
 wordcloud(words, freq, random.order = FALSE, colors=pal, max.words=50, scale=c(8,.3))
+#Finds freq terms of at least 50
+findFreqTerms(dtm, lowfreq=50)
 ```
 
 
 
 ```{r}
-#Finds freq terms of at least 50
-findFreqTerms(dtm, lowfreq=50)
-
+#Create n-grams of 2and 3
 TwogramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 2, max = 2))
 ngram2 = TermDocumentMatrix(corpus, control = list(tokenize = TwogramTokenizer))
 ngram2 = removeSparseTerms(ngram2, 0.995)

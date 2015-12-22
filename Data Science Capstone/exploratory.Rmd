@@ -33,9 +33,9 @@ As can be seen in this data frame, twitter seems to have the largest number of e
 
 ```{r}
 #Takes sampling of each data
-train_blogs = sample(blogs, 100000)
-train_news = sample(news, 100000)
-train_twitter = sample(twitter, 100000)
+train_blogs = sample(blogs, 50000)
+train_news = sample(news, 50000)
+train_twitter = sample(twitter, 50000)
 ```
 
 ```{r}
@@ -47,7 +47,6 @@ corpus = tm_map(corpus, removeNumbers) # remove numbers
 corpus = tm_map(corpus, stripWhitespace) # remove whitespaces
 corpus = tm_map(corpus, tolower) #lowercase all contents
 corpus = tm_map(corpus, removePunctuation) # remove punctuation
-#consider stemming
 corpus = tm_map(corpus, removeWords, c("fuck", "bitch", "ass", "cunt", "pussy", "asshole", "douche")) #remove some swears
 corpus = tm_map(corpus, PlainTextDocument) #convert to plaintextdocument
 
@@ -72,16 +71,28 @@ findFreqTerms(dtm, lowfreq=50)
 
 
 ```{r}
-#Create n-grams of 2and 3
+#Create n-grams of 2
 TwogramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 2, max = 2))
 ngram2 = TermDocumentMatrix(corpus, control = list(tokenize = TwogramTokenizer))
 ngram2 = removeSparseTerms(ngram2, 0.995)
 
-inspect(ngram2)
+#Word cloud of frequent 2grams
+m = as.matrix(ngram2)
+word_freqs = sort(rowSums(m), decreasing=TRUE) 
+dm = data.frame(word=names(word_freqs), freq=word_freqs)
+wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
+```
 
+
+```{r}
+#Create n-gram of 3
 TrigramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3))
 ngram3 = TermDocumentMatrix(corpus, control = list(tokenize = TrigramTokenizer))
 ngram3 = removeSparseTerms(ngram3, 0.995)
 
-inspect(ngram3)
+#Word cloud of frequent 3gram
+m = as.matrix(ngram3)
+word_freqs = sort(rowSums(m), decreasing=TRUE) 
+dm = data.frame(word=names(word_freqs), freq=word_freqs)
+wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 ```

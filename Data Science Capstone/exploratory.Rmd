@@ -85,7 +85,7 @@ Like the previous case with the most common words, the 2grams appears to be conn
 #Create n-gram of 3
 TrigramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3))
 ngram3 = TermDocumentMatrix(corpus, control = list(tokenize = TrigramTokenizer))
-ngram3 = removeSparseTerms(ngram3, 0.995)
+ngram3 = removeSparseTerms(ngram3, 0.999)
 
 #Word cloud of frequent 3gram
 m = as.matrix(ngram3)
@@ -94,3 +94,4 @@ dm = data.frame(word=names(word_freqs), freq=word_freqs)
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 ```
 
+Similar to the others, these 3grams are utilize a lot fo connecting phrases. Some fo the three grams are common in everyday speech such as connecting phrases, what one wants to do or say, or common locales like the united states.

@@ -63,7 +63,7 @@ dm = data.frame(word=names(word_freqs), freq=word_freqs)
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"), max.words=100)
 ```
 
-As can be seen from the word cloud, the most frequent 1grams are stop words. It makes sense as in everyday speech, those words are the most important in order to connect our sentences and make logical sense. There are other common words including said, tell, love, and others which makes sense as the data comes from news as well as from blogs and tweets.
+As can be seen from the word cloud, the most frequent 1grams are stop words. It makes sense as in everyday speech, those words are the most important in order to connect our sentences and make logical sense. There are other common words including "said", "tell", "love", and others which makes sense as the data comes from news as well as from blogs and tweets.
 
 
 ```{r}
@@ -79,6 +79,7 @@ dm = data.frame(word=names(word_freqs), freq=word_freqs)
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 ```
 
+Like the previous case with the most common words, the 2grams appears to be conneting statements. In addition to the connceting statements, there are those such as to do and other verb phrases. There are also descriptive statements such as "the us."
 
 ```{r}
 #Create n-gram of 3
@@ -92,3 +93,4 @@ word_freqs = sort(rowSums(m), decreasing=TRUE)
 dm = data.frame(word=names(word_freqs), freq=word_freqs)
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 ```
+

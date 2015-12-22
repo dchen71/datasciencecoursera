@@ -25,6 +25,7 @@ news = readLines(con, encoding="UTF-8")
 close(con)
 ```
 
+##Analysis of datasets
 
 ```{r}
 data.frame(dataset=c("blogs", "news", "twitter"), num_lines=(c(length(blogs), length(news),length(twitter))), max_length=c(nchar(blogs[which.max(nchar(blogs))]), nchar(news[which.max(nchar(news))]), nchar(twitter[which.max(nchar(twitter))])))
@@ -37,6 +38,8 @@ train_blogs = sample(blogs, 50000)
 train_news = sample(news, 50000)
 train_twitter = sample(twitter, 50000)
 ```
+
+##Creating the training data and ngrams and its examination
 
 ```{r}
 #Combine the datasets and begin to create the corpus of words
@@ -95,3 +98,6 @@ wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 ```
 
 Similar to the others, these 3grams are utilize a lot fo connecting phrases. Some fo the three grams are common in everyday speech such as connecting phrases, what one wants to do or say, or common locales like the united states.
+
+
+

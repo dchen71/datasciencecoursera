@@ -63,6 +63,7 @@ dm = data.frame(word=names(word_freqs), freq=word_freqs)
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"), max.words=100)
 ```
 
+As can be seen from the word cloud, the most frequent 1grams are stop words. It makes sense as in everyday speech, those words are the most important in order to connect our sentences and make logical sense. There are other common words including said, tell, love, and others which makes sense as the data comes from news as well as from blogs and tweets.
 
 
 ```{r}

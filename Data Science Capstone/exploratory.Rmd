@@ -99,5 +99,6 @@ wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 
 Similar to the others, these 3grams are utilize a lot fo connecting phrases. Some fo the three grams are common in everyday speech such as connecting phrases, what one wants to do or say, or common locales like the united states.
 
+##Plans for building the prediction algorithm
 
-
+I plan to build my model primarily utilizing the ngram sequences gathered from the data. The words following the start of a sentence should be able to be predicted based on probablity from ngram sequences. A nice feature to add would be have a prediction algorithm based on the first letter input as well as any following characters until completetion. I will need to look into how to cold start unseen training words as well as how to store the input data.

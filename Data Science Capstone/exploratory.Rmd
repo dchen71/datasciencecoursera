@@ -10,6 +10,8 @@ The goal of the project is to be able to predict the words that follow from it's
 Anyways, the english data is first loaded.
 
 ```{r}
+options(warn=-1) #Suppress warnings
+
 #Packages
 library(ggplot2)
 library(tm)

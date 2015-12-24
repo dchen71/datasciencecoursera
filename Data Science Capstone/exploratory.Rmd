@@ -57,8 +57,8 @@ corpus = tm_map(corpus, PlainTextDocument) #convert to plaintextdocument
 #Convert to DocumentTermMatrix and remove sparse terms
 ngram1 = DocumentTermMatrix(corpus)
 
-ngram1 = removeSparseTerms(dtm, 0.995) #keep words in that appear in 99.5%
-ngram1 = as.data.frame(as.matrix(common))
+ngram1 = removeSparseTerms(ngram1, 0.995) #keep words in that appear in 99.5%
+ngram1 = as.data.frame(as.matrix(ngram1))
 
 #Word cloud of the most frequent words
 word_freqs = sort(colSums(ngram1), decreasing=TRUE) 

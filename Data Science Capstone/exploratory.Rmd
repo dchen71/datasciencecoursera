@@ -65,6 +65,9 @@ ngram1 = as.data.frame(as.matrix(ngram1))
 #Word cloud of the most frequent words
 word_freqs = sort(colSums(ngram1), decreasing=TRUE) 
 dm = data.frame(word=names(word_freqs), freq=word_freqs)
+ordered= dm[order(dm$freq, decreasing=TRUE),]
+ordered = ordered[1:10,]
+ggplot(ordered, aes(x=word, y=freq)) + geom_histogram(stat="identity") + labs(title="Top 10 1gram")
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"), max.words=100)
 ```
 
@@ -81,6 +84,9 @@ ngram2 = removeSparseTerms(ngram2, 0.995)
 m = as.matrix(ngram2)
 word_freqs = sort(rowSums(m), decreasing=TRUE) 
 dm = data.frame(word=names(word_freqs), freq=word_freqs)
+ordered= dm[order(dm$freq, decreasing=TRUE),]
+ordered = ordered[1:10,]
+ggplot(ordered, aes(x=word, y=freq)) + geom_histogram(stat="identity") + labs(title="Top 10 2gram")
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 ```
 
@@ -96,6 +102,9 @@ ngram3 = removeSparseTerms(ngram3, 0.999)
 m = as.matrix(ngram3)
 word_freqs = sort(rowSums(m), decreasing=TRUE) 
 dm = data.frame(word=names(word_freqs), freq=word_freqs)
+ordered= dm[order(dm$freq, decreasing=TRUE),]
+ordered = ordered[1:10,]
+ggplot(ordered, aes(x=word, y=freq)) + geom_histogram(stat="identity") + labs(title="Top 10 3gram")
 wordcloud(dm$word, dm$freq, random.order=FALSE, colors=brewer.pal(8, "Dark2"))
 ```
 

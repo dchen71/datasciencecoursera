@@ -11,9 +11,9 @@ train_news = readLines(con, encoding="UTF-8")
 close(con)
 
 #Subset data for memory issues
-train_blogs = sample(blogs, 500000)
-train_news = sample(news, 500000)
-train_twitter = sample(twitter, 500000)
+train_blogs = sample(train_blogs, 500000)
+train_news = sample(train_news, 500000)
+train_twitter = sample(train_twitter, 500000)
 
 #Create a corpus from dataset
 create_corpus = function(dm){

@@ -28,19 +28,15 @@ create_corpus = function(dm){
   return(corpus)
 }
 
-#Create corpus for each dataset
-blogs_corpus = create_corpus(train_blogs)
-news_corpus = create_corpus(train_news)
-twitter_corpus = create_corpus(train_twitter)
+#Setup corpus from training data
+train_words = c(train_blogs, train_news, train_twitter)
+train_corpus = create_corpus(train_words)
 
 #Create 1gram
-create_n1 = function(corpus){
-  ngram1 = DocumentTermMatrix(corpus)
-  ngram1 = removeSparseTerms(ngram1, 0.995) #keep words in that appear in 99.5%
-  ngram1 = as.data.frame(as.matrix(ngram1))
-  
-  return(ngram1)
-}
+ngram1 = DocumentTermMatrix(train_corpus)
+ngram1 = removeSparseTerms(ngram1, 0.995) #keep words in that appear in 99.5%
+ngram1 = as.data.frame(as.matrix(ngram1))
+
 
 #Create 2-grams
 create_n2 = function(corpus){
@@ -52,6 +48,8 @@ create_n2 = function(corpus){
   return(ngram2)
 }
 
+ngram2 = create_n2(train_corpus)
+
 #Create 3-grams
 create_n3 = function(corpus){
   TrigramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3))
@@ -62,5 +60,5 @@ create_n3 = function(corpus){
   return(ngram3)
 }
 
-
+ngram3 = create_n3(train_corpus)
 

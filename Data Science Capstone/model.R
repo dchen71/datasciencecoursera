@@ -68,3 +68,13 @@ ngram1_total = colSums(ngram1)
 ngram1_raw = as.numeric(ngram1_total[1:525])
 ngram1_raw = data.frame(names(ngram1),ngram1_raw)
 names(ngram1_raw) = c("words", "total")
+
+ngram2_total = rowSums(ngram2)
+ngram2_raw = as.numeric(ngram2_total[1:nrow(ngram2)])
+ngram2_raw = data.frame(names(ngram2_total),ngram2_raw)
+names(ngram2_raw) = c("words", "total")
+
+ngram3_total = rowSums(ngram3)
+ngram3_raw = as.numeric(ngram3_total[1:nrow(ngram3)])
+ngram3_raw = data.frame(names(ngram3_total),ngram3_raw)
+names(ngram3_raw) = c("words", "total")

@@ -63,3 +63,8 @@ create_n3 = function(corpus){
 
 ngram3 = create_n3(train_corpus)
 
+#Process raw ngrams
+ngram1_total = colSums(ngram1)
+ngram1_raw = as.numeric(ngram1_total[1:525])
+ngram1_raw = data.frame(names(ngram1),ngram1_raw)
+names(ngram1_raw) = c("words", "total")

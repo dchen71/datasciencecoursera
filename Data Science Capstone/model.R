@@ -78,3 +78,10 @@ ngram3_total = rowSums(ngram3)
 ngram3_raw = as.numeric(ngram3_total[1:nrow(ngram3)])
 ngram3_raw = data.frame(names(ngram3_total),ngram3_raw)
 names(ngram3_raw) = c("words", "total")
+
+#Prediction function for n-1(up to 3 gram)
+pred_word = function(word){
+  words = as.data.frame(strsplit(word, " "))
+  names(words) = "query"
+  
+}

@@ -69,11 +69,18 @@ ngram1_raw = as.numeric(ngram1_total[1:525])
 ngram1_raw = data.frame(names(ngram1),ngram1_raw)
 names(ngram1_raw) = c("words", "total")
 
+#Preceding word, after
 ngram2_total = rowSums(ngram2)
 ngram2_raw = as.numeric(ngram2_total[1:nrow(ngram2)])
 ngram2_raw = data.frame(names(ngram2_total),ngram2_raw)
 names(ngram2_raw) = c("words", "total")
+ngram2_raw$word1 = "dummy"
+ngram2_raw$word2 = "dummy"
+for(i in 1:nrow(ngram2_raw)){
+  ngram2_raw$word1[i] = unlist(strsplit(word, " "))
+}
 
+#Preceding phrase, after
 ngram3_total = rowSums(ngram3)
 ngram3_raw = as.numeric(ngram3_total[1:nrow(ngram3)])
 ngram3_raw = data.frame(names(ngram3_total),ngram3_raw)
@@ -81,7 +88,8 @@ names(ngram3_raw) = c("words", "total")
 
 #Prediction function for n-1(up to 3 gram)
 pred_word = function(word){
-  words = as.data.frame(strsplit(word, " "))
+  words = as.data.frame(unlist(strsplit(word, " ")))
   names(words) = "query"
+  query_length = nrow(words)
   
 }

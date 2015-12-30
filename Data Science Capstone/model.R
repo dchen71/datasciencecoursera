@@ -89,16 +89,32 @@ ngram3_raw = data.frame(names(ngram3_total),ngram3_raw)
 names(ngram3_raw) = c("words", "total")
 ngram3_raw$phrase = "dummy"
 ngram3_raw$word3 = "dummy"
-for(i in 1:nrow(ngram2_raw)){
+for(i in 1:nrow(ngram3_raw)){
   split_words = unlist(strsplit(as.character(ngram3_raw$words[i]), " "))
-  ngram3_raw$phrase[i] = split_words[1]
-  ngram3_raw$word3[i] = split_words[2]
+  ngram3_raw$phrase[i] = paste(split_words[1],split_words[2], sep=" ")
+  ngram3_raw$word3[i] = split_words[3]
 }
 
-#Prediction function for n-1(up to 3 gram)
+#Prediction function for n-1(2-3 words total)
 pred_word = function(word){
   words = as.data.frame(unlist(strsplit(word, " ")))
   names(words) = "query"
   query_length = nrow(words)
   
+  #Nice to have predict based on preceding characters
+  if(query_length == 1){
+    return() #return highest likely word from ngram1_raw(maybe subset based on first character at least)
+  }
+  else if(query_length == 2){
+    #check if word1 from query is in ngram2 if not guess the closest word probably based on 1st char
+    ##if present in word1, go with prob for what next word could be otherwise return highest likely one
+  }
+  else if(query_length == 3){
+    #check if first two words in, if not guess one from list
+    #check first two words and guess likelihood of next word based on prob
+  }
+
+  
+  prediction = "this"
+  return(prediction)
 }

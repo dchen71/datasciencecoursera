@@ -77,7 +77,9 @@ names(ngram2_raw) = c("words", "total")
 ngram2_raw$word1 = "dummy"
 ngram2_raw$word2 = "dummy"
 for(i in 1:nrow(ngram2_raw)){
-  ngram2_raw$word1[i] = unlist(strsplit(word, " "))
+  split_words = unlist(strsplit(as.character(ngram2_raw$words[i]), " "))
+  ngram2_raw$word1[i] = split_words[1]
+  ngram2_raw$word2[i] = split_words[2]
 }
 
 #Preceding phrase, after
@@ -85,6 +87,13 @@ ngram3_total = rowSums(ngram3)
 ngram3_raw = as.numeric(ngram3_total[1:nrow(ngram3)])
 ngram3_raw = data.frame(names(ngram3_total),ngram3_raw)
 names(ngram3_raw) = c("words", "total")
+ngram3_raw$phrase = "dummy"
+ngram3_raw$word3 = "dummy"
+for(i in 1:nrow(ngram2_raw)){
+  split_words = unlist(strsplit(as.character(ngram3_raw$words[i]), " "))
+  ngram3_raw$phrase[i] = split_words[1]
+  ngram3_raw$word3[i] = split_words[2]
+}
 
 #Prediction function for n-1(up to 3 gram)
 pred_word = function(word){

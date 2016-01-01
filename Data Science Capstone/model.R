@@ -103,6 +103,9 @@ pred_word = function(word){
   
   #Nice to have predict based on preceding characters
   if(query_length == 1){
+    #could be improved by trying to do local alignment
+    #will return highest occuring word with starting letter
+    #if nothing matches then just take highest occuring word
     return() #return highest likely word from ngram1_raw(maybe subset based on first character at least)
   }
   else if(query_length == 2){
@@ -114,7 +117,6 @@ pred_word = function(word){
     #check first two words and guess likelihood of next word based on prob
   }
 
-  
   prediction = "this"
   return(prediction)
 }

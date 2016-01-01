@@ -113,7 +113,9 @@ pred_word = function(word){
       start_match = ngram1_raw[ngram1_raw$start == start_test,]
       prediction = as.vector(start_match$words[which.max(start_match$total)])
     }
-    
+    else{ #Take the highest occuring word, be great if this took it based on local alignment although be less of issue if bigger data size
+      prediction = as.vector(ngram1_raw$words[which.max(ngram1_raw$total)])
+    }
   }
   else if(query_length == 2){
     #check if word1 from query is in ngram2 if not guess the closest word probably based on 1st char

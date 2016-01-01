@@ -68,6 +68,7 @@ ngram1_total = colSums(ngram1)
 ngram1_raw = as.numeric(ngram1_total[1:525])
 ngram1_raw = data.frame(names(ngram1),ngram1_raw)
 names(ngram1_raw) = c("words", "total")
+ngram1_raw$start = substr(ngram1_raw$words, 1,1)
 
 #Preceding word, after
 ngram2_total = rowSums(ngram2)
@@ -101,12 +102,18 @@ pred_word = function(word){
   names(words) = "query"
   query_length = nrow(words)
   
-  #Nice to have predict based on preceding characters
+  #Nice to have predict completely based on preceding characters
+  #could be improved by trying to do local alignment
   if(query_length == 1){
-    #could be improved by trying to do local alignment
-    #will return highest occuring word with starting letter
-    #if nothing matches then just take highest occuring word
-    return() #return highest likely word from ngram1_raw(maybe subset based on first character at least)
+    if(words$query %in% ngram1_raw$words){ #If word in dict, then it is correct
+      prediction = words[1,1]
+    }
+    else if(substr(words$query[1],1,1) %in% ngram1_raw$start){ #Takes the highest occuring same starting char
+      start_test = substr(words$query[1],1,1)
+      start_match = ngram1_raw[ngram1_raw$start == start_test,]
+      prediction = as.vector(start_match$words[which.max(start_match$total)])
+    }
+    
   }
   else if(query_length == 2){
     #check if word1 from query is in ngram2 if not guess the closest word probably based on 1st char
@@ -117,6 +124,7 @@ pred_word = function(word){
     #check first two words and guess likelihood of next word based on prob
   }
 
-  prediction = "this"
   return(prediction)
 }
+
+pred_word(word)

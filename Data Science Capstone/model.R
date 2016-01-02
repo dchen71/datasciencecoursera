@@ -120,6 +120,14 @@ pred_word = function(word){
   else if(query_length == 2){
     #check if word1 from query is in ngram2 if not guess the closest word probably based on 1st char
     ##if present in word1, go with prob for what next word could be otherwise return highest likely one
+    if(words[1,1] %in% ngram2_raw$word1){
+      #either do highest occur or first letter
+      word_match = ngram2_raw[ngram2_raw$word1 == words[1,1],]
+      prediction = as.vector(word_match$word2[which.max(word_match$total)])
+    }
+    else{ #Take highest occuring phrase
+      prediction = as.vector(ngram2_raw$words[which.max(ngram2_raw$total)])
+    }
   }
   else if(query_length == 3){
     #check if first two words in, if not guess one from list

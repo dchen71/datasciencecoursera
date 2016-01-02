@@ -118,20 +118,49 @@ pred_word = function(word){
     }
   }
   else if(query_length == 2){
-    #check if word1 from query is in ngram2 if not guess the closest word probably based on 1st char
-    ##if present in word1, go with prob for what next word could be otherwise return highest likely one
-    if(words[1,1] %in% ngram2_raw$word1){
-      #either do highest occur or first letter
-      word_match = ngram2_raw[ngram2_raw$word1 == words[1,1],]
-      prediction = as.vector(word_match$word2[which.max(word_match$total)])
+    if(words[1,1] %in% ngram2_raw$word1){ #If first word there, take the highest occuring 2nd word following it
+      if(words[2,1] %in% ngram2_raw$word2){
+        prediction = words[2,1]
+      }
+      else{
+        word_match = ngram2_raw[ngram2_raw$word1 == words[1,1],]
+        prediction = as.vector(word_match$word2[which.max(word_match$total)])
+      }
     }
-    else{ #Take highest occuring phrase
-      prediction = as.vector(ngram2_raw$words[which.max(ngram2_raw$total)])
+    else{ #Take highest occuring preceding word
+      word_match = ngram2_raw[ngram2_raw$word1 == as.vector(ngram1_raw$words[which.max(ngram1_raw$total)]),]
+      if(words[2,1] %in% ngram2_raw$word2){ #Check if in dictionary
+        prediction = words[2,1]
+      }
+      else{ #Second word will be predicted based on highest occurence
+        prediction = as.vector(ngram2_raw$words[which.max(ngram2_raw$total)])
+      }
     }
   }
   else if(query_length == 3){
     #check if first two words in, if not guess one from list
     #check first two words and guess likelihood of next word based on prob
+    if(paste(words[1,1], words[2,1]) %in% ngram3_raw$phrase){
+      if(words[3,1] %in% ngram3_raw$word3){
+        prediction = words[3,1]
+      }
+      else{
+        word_match = ngram3_raw[ngram3_raw$phrase == paste(words[1,1], words[2,1]),]
+        prediction = as.vector(word_match$word3[which.max(word_match$total)])
+      }
+    }
+    else{ #Take highest occuring phrase
+      word_match = ngram3_raw[ngram3_raw$phrase == as.vector(ngram2_raw$words[which.max(ngram2_raw$total)]),]
+      if(words[3,1] %in% ngram3_raw$word3){ #Check if in dictionary
+        prediction = words[2,1]
+      }
+      else{ #Second word will be predicted based on highest occurence
+        prediction = as.vector(word_match$word3[which.max(word_match$total)])
+      }
+    }
+  }
+  else{
+    prediction = "Please limit prediction to 3 works max"
   }
 
   return(prediction)

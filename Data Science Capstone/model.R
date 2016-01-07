@@ -35,7 +35,7 @@ train_corpus = create_corpus(train_words)
 
 #Create 1gram
 ngram1 = DocumentTermMatrix(train_corpus)
-ngram1 = removeSparseTerms(ngram1, 0.995) #keep words in that appear in 99.5%
+ngram1 = removeSparseTerms(ngram1, 0.999)
 ngram1 = as.data.frame(as.matrix(ngram1))
 
 
@@ -43,7 +43,7 @@ ngram1 = as.data.frame(as.matrix(ngram1))
 create_n2 = function(corpus){
   TwogramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 2, max = 2))
   ngram2 = TermDocumentMatrix(corpus, control = list(tokenize = TwogramTokenizer))
-  ngram2 = removeSparseTerms(ngram2, 0.995)
+  ngram2 = removeSparseTerms(ngram2, 0.999)
   ngram2 = as.data.frame(as.matrix(ngram2))
   
   return(ngram2)
@@ -52,16 +52,12 @@ create_n2 = function(corpus){
 ngram2 = create_n2(train_corpus)
 
 #Create 3-grams
-create_n3 = function(corpus){
-  TrigramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3))
-  ngram3 = TermDocumentMatrix(corpus, control = list(tokenize = TrigramTokenizer))
-  ngram3 = removeSparseTerms(ngram3, 0.999)
-  ngram3 = as.data.frame(as.matrix(ngram3))
-  
-  return(ngram3)
-}
+TrigramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3))
+ngram3 = TermDocumentMatrix(train_corpus, control = list(tokenize = TrigramTokenizer))
+ngram3 = removeSparseTerms(ngram3, 0.999)
+ngram3 = as.data.frame(as.matrix(ngram3))
 
-ngram3 = create_n3(train_corpus)
+
 
 #Process raw ngrams
 ngram1_total = colSums(ngram1)

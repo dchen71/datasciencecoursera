@@ -28,7 +28,7 @@ pred_word = function(word){
         prediction = paste(words[1,1], words[2,1])
       } else{
         names(w2) = "query"
-        w2 = n1_pred(w2, word)
+        w2 = n1_pred(w2, as.vector(words[2,1]))
         prediction = paste(words[1,1], w2)
       }
     }else{ #Take highest occuring preceding word
@@ -43,34 +43,20 @@ pred_word = function(word){
     #check if first two words in, if not guess one from list
     #check first two words and guess likelihood of next word based on prob
     if(paste(words[1,1], words[2,1]) %in% ngram3_raw$phrase){
-      if(words[3,1] %in% ngram3_raw$word3){
+      if(words[3,1] %in% ngram3_raw$word3){ #see if phrase in ngram3
         prediction = word
-      } else if(words[2,1] %in% ngram2_raw$word1){
+      } else if(words[2,1] %in% ngram2_raw$word1){ #check if 2nd word part of a 2gram phrase
         word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[2,1]),]
         prediction = paste(words[1,1], as.vector(word_match$words[which.max(word_match$total)]))
-      } else {
+      } else { #takes the highest ngram3
         word_match = ngram3_raw[ngram3_raw$phrase == paste(words[1,1], words[2,1]),]
         prediction = paste(paste(words[1,1], words[2,1]), as.vector(word_match$word3[which.max(word_match$total)]))
       }
+    } else if(words[2,1] %in% ngram2_raw$word1){ #checks 2gram for presence
+      word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[2,1]),]
+      prediction = paste(words[1,1], as.vector(word_match$words[which.max(word_match$total)]))
     } else{ 
-      if(paste(words[1,1], words[2,1]) %in% ngram2_raw$words){ #takes phrase from 2gram if there
-        w3 = as.data.frame(words[3,1])
-        names(w3) = "query"
-        w3 = n1_pred(w3, word)
-        prediction = paste(words[1,1], words[2,1], w3)
-      } else if(paste(words[2,1], words[3,1]) %in% ngram2_raw$words){ #checks end phrase
-        w3 = as.data.frame(words[1,1])
-        names(w3) = "query"
-        w3 = n1_pred(w3, word)
-        prediction = paste(w3, words[2,1], words[3,1] )
-      } else{ #takes highest occuring phrase from ngram3
-        word_match = ngram3_raw[ngram3_raw$phrase == as.vector(ngram2_raw$words[which.max(ngram2_raw$total)]),]
-        if(words[3,1] %in% ngram3_raw$word3){ #Check if in dictionary
-          prediction = paste(word_match$phrase[1], words[2,1])
-        } else{ #Second word will be predicted based on highest occurence
-          prediction = paste(word_match$phrase[1], as.vector(word_match$word3[which.max(word_match$total)]))
-        }
-      }
+      prediction = paste(paste(words[1,1], words[2,1]), words[3,1])
       
     }
   } else{

@@ -2,6 +2,8 @@ library(shiny)
 ngram1_raw = read.csv("data/ng1.csv")
 ngram2_raw = read.csv("data/ng2.csv")
 ngram3_raw = read.csv("data/ng3.csv")
+
+#Predicts word/word phrases
 pred_word = function(word){
   words = as.data.frame(unlist(strsplit(word, " ")))
   names(words) = "query"
@@ -23,7 +25,16 @@ pred_word = function(word){
       }
     }
     else if(words[1,1] %in% ngram1_raw$words){
-      #predict 1gram
+      #predict 1gram freq vs freq of word in word2
+      w2 = as.data.frame(words[2,1])
+      if(nrow(ngram2_raw[ngram2_raw$word2 == as.vector(words[2,1]),]) >= 1){
+        prediction = paste(words[1,1], words[2,1])
+      }
+      else{
+        names(w2) = "query"
+        w2 = n1_pred(w2, word)
+        prediction = paste(words[1,1], w2)
+      }
     }
     else{ #Take highest occuring preceding word
       word_match = ngram2_raw[ngram2_raw$word1 == as.vector(ngram1_raw$words[which.max(ngram1_raw$total)]),]
@@ -64,6 +75,7 @@ pred_word = function(word){
   return(prediction)
 }
 
+#Predicts 1gram
 n1_pred = function(words, word){
   if(words$query %in% ngram1_raw$words){ #If word in dict, then it is correct
     prediction = word

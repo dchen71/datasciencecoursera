@@ -44,8 +44,11 @@ pred_word = function(word){
     #check first two words and guess likelihood of next word based on prob
     if(paste(words[1,1], words[2,1]) %in% ngram3_raw$phrase){
       if(words[3,1] %in% ngram3_raw$word3){
-        prediction = paste(paste(words[1,1], words[2,1]), words[3,1])
-      } else{
+        prediction = word
+      } else if(words[2,1] %in% ngram2_raw$word1){
+        word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[2,1]),]
+        prediction = paste(words[1,1], as.vector(word_match$words[which.max(word_match$total)]))
+      } else {
         word_match = ngram3_raw[ngram3_raw$phrase == paste(words[1,1], words[2,1]),]
         prediction = paste(paste(words[1,1], words[2,1]), as.vector(word_match$word3[which.max(word_match$total)]))
       }

@@ -11,7 +11,7 @@ pred_word = function(word){
   #could be improved by trying to do local alignment
   if(query_length == 1){
     if(words$query %in% ngram1_raw$words){ #If word in dict, then it is correct
-      prediction = words[1,1]
+      prediction = word
     }
     else if(substr(words$query[1],1,1) %in% ngram1_raw$start){ #Takes the highest occuring same starting char
       start_test = substr(words$query[1],1,1)

@@ -13,14 +13,13 @@ pred_word = function(word){
   #could be improved by trying to do local alignment
   if(query_length == 1){
     prediction = n1_pred(words, word)
-  }
-  else if(query_length == 2){
+  } else if(query_length == 2){
     if(words[1,1] %in% ngram2_raw$word1){ #If first word there, take the highest occuring 2nd word following it
       if(words[2,1] %in% ngram2_raw$word2){
         prediction = paste(words[1,1],words[2,1])
       }
       else{
-        word_match = ngram2_raw[ngram2_raw$word1 == words[1,1],]
+        word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[1,1]),]
         prediction = paste(words[1,1], as.vector(word_match$word2[which.max(word_match$total)]))
       }
     }
@@ -45,8 +44,7 @@ pred_word = function(word){
         prediction = as.vector(ngram2_raw$words[which.max(ngram2_raw$total)])
       }
     }
-  }
-  else if(query_length == 3){
+  } else if(query_length == 3){
     #check if first two words in, if not guess one from list
     #check first two words and guess likelihood of next word based on prob
     if(paste(words[1,1], words[2,1]) %in% ngram3_raw$phrase){

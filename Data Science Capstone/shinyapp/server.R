@@ -50,15 +50,23 @@ pred_word = function(word){
         prediction = paste(paste(words[1,1], words[2,1]), as.vector(word_match$word3[which.max(word_match$total)]))
       }
     } else{ #Take highest occuring phrase
-      word_match = ngram3_raw[ngram3_raw$phrase == as.vector(ngram2_raw$words[which.max(ngram2_raw$total)]),]
-      if(words[3,1] %in% ngram3_raw$word3){ #Check if in dictionary
-        prediction = paste(word_match$phrase[1], words[2,1])
-      } else{ #Second word will be predicted based on highest occurence
-        prediction = paste(word_match$phrase[1], as.vector(word_match$word3[which.max(word_match$total)]))
+      if(paste(words[1,1], words[2,1]) %in% ngram2_raw$words){
+        w3 = as.data.frame(words[3,1])
+        names(w3) = "query"
+        w3 = n1_pred(w3, word)
+        prediction = paste(words[1,1], words[2,1], w3)
+      } else{
+        word_match = ngram3_raw[ngram3_raw$phrase == as.vector(ngram2_raw$words[which.max(ngram2_raw$total)]),]
+        if(words[3,1] %in% ngram3_raw$word3){ #Check if in dictionary
+          prediction = paste(word_match$phrase[1], words[2,1])
+        } else{ #Second word will be predicted based on highest occurence
+          prediction = paste(word_match$phrase[1], as.vector(word_match$word3[which.max(word_match$total)]))
+        }
       }
+      
     }
   } else{
-    prediction = "Please limit prediction to 3 works max"
+    prediction = "Please limit prediction to 3 words max"
   }
   
   return(prediction)

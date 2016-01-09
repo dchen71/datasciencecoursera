@@ -56,8 +56,14 @@ pred_word = function(word){
       word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[2,1]),]
       prediction = paste(words[1,1], as.vector(word_match$words[which.max(word_match$total)]))
     } else{ 
-      prediction = paste(paste(words[1,1], words[2,1]), words[3,1])
-      
+      freqs = table(ngram2_raw$word2)
+      if(word[2,1] != names(which.max(freqs))){
+        prediction = paste(paste(words[1,1], words[2,1]), names(which.max(table(ngram2_raw$word2))))
+      }
+      else{
+        len_freqs = length(freqs)
+        prediction = paste(paste(words[1,1], words[2,1]), names(freqs[order(freqs)][len_freqs - 1]))
+      }
     }
   } else{
     prediction = "Please limit prediction to 3 words max"

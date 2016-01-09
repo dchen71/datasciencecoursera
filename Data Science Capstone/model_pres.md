@@ -3,35 +3,23 @@ Coursera Data Science Capstone
 author: dchen71
 date: 01/20/2016
 
-First Slide
+About Natural Language Processing
 ========================================================
 
-For more details on authoring R presentations click the
-**Help** button on the toolbar.
+Natural language processing(NLP) is a field dedicated to understanding the interactions between computers and natural languages. NLP has it's roots in trying to help model the characteristics that we take for granted in speech and text, and to be able to parse and created meaning for the compiler. 
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+Some of the practical uses include the following:
+* Summarization
+* Machne Translation
+* Text prediction
 
-Slide With Code
+The model
 ========================================================
 
 
-```r
-summary(cars)
-```
 
-```
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
-```
 
-Slide With Plot
+In action
 ========================================================
 
 ![plot of chunk unnamed-chunk-2](model_pres-figure/unnamed-chunk-2-1.png)

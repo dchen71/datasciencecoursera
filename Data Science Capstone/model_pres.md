@@ -13,13 +13,18 @@ Some of the practical uses include the following:
 * Machne Translation
 * Text prediction
 
+
 The model
 ========================================================
 
+The goals of the model is to be able to accurately predict the text that is being typed. 
 
-
-
-In action
+Model Performance
 ========================================================
 
-![plot of chunk unnamed-chunk-2](model_pres-figure/unnamed-chunk-2-1.png)
+
+
+The model in action
+========================================================
+
+![Shiny App](model_pres-figure/img.png "Shinyapp Picture")

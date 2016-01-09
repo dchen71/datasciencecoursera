@@ -21,7 +21,7 @@ shinyUI(pageWithSidebar(
     h4("Building the model"),
     p("The model itself is simple and primitive. The model primarily functions by predicting words based 
       on n-1 grams. The prediction algorithm works only for up to 3 words. The model works in ngram2 and ngram3
-      by looking at the previous word or phrase and subsetting its guess based on there. If the phrase being
+      by looking at the previous word or phrase and subsetting its guess based on those datasets. If the phrase being
       predicted has a previous word or first two words in the prediction dataset, it will subset the data and
       return the highest occuring subsequent word afterwards. In the case that the previous word/words 
       have no matches, it returns the highest occuring phrase in the dataset. In addition, ngram1 can predict

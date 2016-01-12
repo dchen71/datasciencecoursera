@@ -13,17 +13,16 @@ Some of the practical uses include the following:
 * Machne Translation
 * Text prediction
 
+The goal of the model will be to be able to predict text that will be typed.
 
 The model
 ========================================================
 
-The goals of the model is to be able to accurately predict the text that is being typed. The model is similar to a more primitive version of the backoff models in which it is highly dependent on the text preceding what is being predicted.
-
 ## Preprocessing
-Datasets from twitter, blogs and news are used. They are processed to remove extra spaces, swears, and punctuation. The text is then further processed to 1grams, 2grams, and 3grams.
+Datasets came from twitter, blogs and news. They are processed to remove extra spaces, swears, and punctuation and converted into up to 3grams. 
 
 ## Model
-The model is dependent on the number of words input. For single word predictions, it relies on indexing based on the first character input and then on the highest frequent word. The phrases with two words, the model does two things. If the first word was seen before, it will return the highest seen phrase containing that word. If it has not, then it will return the highest occuring word from the single word list. Phrases with 3 words follows the same example and will predict based on the last two words of the phrase if possible.
+The model is based on Katz Backoff model. For n-1 grams, the prediction is based on the occurence of the word before in the training text. The model should become better with increased training data and can be improved with predictions based on text input as well.
 
 Model Performance
 ========================================================

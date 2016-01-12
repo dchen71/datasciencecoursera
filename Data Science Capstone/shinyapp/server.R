@@ -100,7 +100,22 @@ pred_backoff = function(word){
     }
   } else if(spaces == 1 && query_length == 2){ #2 words inputted, create prediction for 3gram
     if(paste(words[1,1], words[2,1]) %in% ngram3_raw$phrase){
-      
+      word_match = ngram3_raw[ngram3_raw$phrase == paste(words[1,1], words[2,1]),]
+      word_prob = aggregate(total ~ word3, data=word_match, sum)
+      word_prob$prob = word_prob$total / sum(word_prob$total)
+      word_prob = word_prob[order(word_prob$prob),]
+      prediction = tail(word_prob[,c(1,3)], 5)
+    }
+    else{
+      if(words[2,1] %in% ngram1_raw$word1){ #see if it can be matched through 2grams
+        word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[1,1]),]
+        word_prob = aggregate(total ~ word2, data=word_match, sum)
+        word_prob$prob = word_prob$total / sum(word_prob$total)
+        word_prob = word_prob[order(word_prob$prob),]
+        prediction = tail(word_prob[,c(1,3)], 5)
+      } else{
+        #0/whatever
+      }
     }
   }
   else{
@@ -129,5 +144,5 @@ n1_pred = function(words, word){
 # Define server logic required to plot various variables against mpg
 shinyServer(function(input, output) {
   output$predictionv1 = renderText({pred_word(input$query)}) #simple model
-  output$predictionv2 = renderText({pred_backoff(input$backoff)}) #backoff model
+  output$predictionv2 = renderDataTable({pred_backoff(input$backoff)}) #backoff model
 })

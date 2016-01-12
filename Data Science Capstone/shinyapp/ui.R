@@ -47,6 +47,6 @@ shinyUI(pageWithSidebar(
     h3("Katz Backoff Model"),
     textInput("backoff", "Input"),
     h4("Predicted next word"),
-    textOutput("predictionv2")
+    dataTableOutput("predictionv2")
   )
 ))

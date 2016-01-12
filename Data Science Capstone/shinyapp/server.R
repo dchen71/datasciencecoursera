@@ -87,6 +87,9 @@ pred_backoff = function(word){
   twogram_prob$prob = twogram_prob$total / sum(twogram_prob$total) #likelihood based on word frequency for 1grams
   twogram_prob = twogram_prob[order(twogram_prob$prob),]
   
+  threegram_prob = aggregate(total ~ word3, data=ngram3_raw, sum)
+  threegram_prob$prob = threegram_prob$total / sum(threegram_prob$total) #likelihood based on word frequency for 1grams
+  threegram_prob = threegram_prob[order(threegram_prob$prob),]
   
   if(query_length == 1 && spaces == 1){ #1 word input, create prediction for next word
     if(word[1] %in% ngram2_raw$word1){ #see if there is an eisting pattern
@@ -94,9 +97,9 @@ pred_backoff = function(word){
       word_prob = aggregate(total ~ word2, data=word_match, sum)
       word_prob$prob = word_prob$total / sum(word_prob$total)
       word_prob = word_prob[order(word_prob$prob),]
-      prediction = tail(word_prob[,c(1,3)], 5)
+      prediction = tail(word_prob[,c(1,3)])
     } else{ #guess the next word without a pattern through ngram1
-      prediction = tail(twogram_prob[,c(1,3)], 5)
+      prediction = tail(twogram_prob[,c(1,3)])
     }
   } else if(spaces == 1 && query_length == 2){ #2 words inputted, create prediction for 3gram
     if(paste(words[1,1], words[2,1]) %in% ngram3_raw$phrase){
@@ -104,7 +107,7 @@ pred_backoff = function(word){
       word_prob = aggregate(total ~ word3, data=word_match, sum)
       word_prob$prob = word_prob$total / sum(word_prob$total)
       word_prob = word_prob[order(word_prob$prob),]
-      prediction = tail(word_prob[,c(1,3)], 5)
+      prediction = tail(word_prob[,c(1,3)])
     }
     else{
       if(words[2,1] %in% ngram1_raw$word1){ #see if it can be matched through 2grams
@@ -112,9 +115,9 @@ pred_backoff = function(word){
         word_prob = aggregate(total ~ word2, data=word_match, sum)
         word_prob$prob = word_prob$total / sum(word_prob$total)
         word_prob = word_prob[order(word_prob$prob),]
-        prediction = tail(word_prob[,c(1,3)], 5)
+        prediction = tail(word_prob[,c(1,3)])
       } else{
-        #0/whatever
+        prediction = tail(word_prob[,c(1,3)])
       }
     }
   }

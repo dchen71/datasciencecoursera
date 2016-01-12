@@ -3,7 +3,7 @@ ngram1_raw = read.csv("data/ng1.csv")
 ngram2_raw = read.csv("data/ng2.csv")
 ngram3_raw = read.csv("data/ng3.csv")
 
-#Predicts word/word phrases
+#Predicts word/word phrases, simple model
 pred_word = function(word){
   words = as.data.frame(unlist(strsplit(word, " ")))
   names(words) = "query"
@@ -72,6 +72,44 @@ pred_word = function(word){
   return(prediction)
 }
 
+#Performs a Katz backoff model prediction
+pred_backoff = function(word){
+  spaces = length(gregexpr(" ", word)[[1]]) #counts number of lines in a string
+  
+  words = as.data.frame(unlist(strsplit(word, " "))) #splits up the word into dataframe
+  names(words) = "query"
+  query_length = nrow(words)
+  
+  ngram1_raw$prob = ngram1_raw$total / sum(ngram1_raw$total) #likelihood based on word frequency for 1grams
+  ngram1_raw = ngram1_raw[order(ngram1_raw$prob),]
+  
+  twogram_prob = aggregate(total ~ word2, data=ngram2_raw, sum) #likelihood based on 2gram
+  twogram_prob$prob = twogram_prob$total / sum(twogram_prob$total) #likelihood based on word frequency for 1grams
+  twogram_prob = twogram_prob[order(twogram_prob$prob),]
+  
+  
+  if(query_length == 1 && spaces == 1){ #1 word input, create prediction for next word
+    if(word[1] %in% ngram2_raw$word1){ #see if there is an eisting pattern
+      word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[1,1]),]
+      word_prob = aggregate(total ~ word2, data=word_match, sum)
+      word_prob$prob = word_prob$total / sum(word_prob$total)
+      word_prob = word_prob[order(word_prob$prob),]
+      prediction = tail(word_prob[,c(1,3)], 5)
+    } else{ #guess the next word without a pattern through ngram1
+      prediction = tail(twogram_prob[,c(1,3)], 5)
+    }
+  } else if(spaces == 1 && query_length == 2){ #2 words inputted, create prediction for 3gram
+    if(paste(words[1,1], words[2,1]) %in% ngram3_raw$phrase){
+      
+    }
+  }
+  else{
+    prediction = "Please enter a string between 1-2 words"
+  }
+  
+  return(prediction)
+}
+
 #Predicts 1gram
 n1_pred = function(words, word){
   if(words$query %in% ngram1_raw$words){ #If word in dict, then it is correct
@@ -90,5 +128,6 @@ n1_pred = function(words, word){
 
 # Define server logic required to plot various variables against mpg
 shinyServer(function(input, output) {
-  output$prediction = renderText({pred_word(input$query)})
+  output$predictionv1 = renderText({pred_word(input$query)}) #simple model
+  output$predictionv2 = renderText({pred_backoff(input$backoff)}) #backoff model
 })

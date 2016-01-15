@@ -102,23 +102,23 @@ pred_backoff = function(word){
       prediction = tail(twogram_prob[,c(1,3)])
     }
   } else if(query_length == 2){ #2 words inputted, create prediction for 3gram
-    if(paste(words[1,1], words[2,1]) %in% ngram3_raw$phrase){
-      word_match = ngram3_raw[ngram3_raw$phrase == paste(words[1,1], words[2,1]),]
-      word_prob = aggregate(total ~ word3, data=word_match, sum)
-      word_prob$prob = word_prob$total / sum(word_prob$total)
-      word_prob = word_prob[order(word_prob$prob),]
-      prediction = tail(word_prob[,c(1,3)])
-    }
-    else{
-      if(words[2,1] %in% ngram1_raw$word1){ #see if it can be matched through 2grams
-        word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[1,1]),]
-        word_prob = aggregate(total ~ word2, data=word_match, sum)
+      if(paste(words[1,1], words[2,1]) %in% ngram3_raw$phrase){
+        word_match = ngram3_raw[ngram3_raw$phrase == paste(words[1,1], words[2,1]),]
+        word_prob = aggregate(total ~ word3, data=word_match, sum)
         word_prob$prob = word_prob$total / sum(word_prob$total)
         word_prob = word_prob[order(word_prob$prob),]
         prediction = tail(word_prob[,c(1,3)])
-      } else{
-        prediction = tail(word_prob[,c(1,3)])
       }
+      else{
+        if(words[2,1] %in% ngram1_raw$word1){ #see if it can be matched through 2grams
+          word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[1,1]),]
+          word_prob = aggregate(total ~ word2, data=word_match, sum)
+          word_prob$prob = word_prob$total / sum(word_prob$total)
+          word_prob = word_prob[order(word_prob$prob),]
+          prediction = tail(word_prob[,c(1,3)])
+        } else{
+          prediction = tail(threegram_prob[,c(1,3)])
+        }
     }
   }
   else{

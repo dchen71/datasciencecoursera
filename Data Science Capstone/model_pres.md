@@ -27,7 +27,7 @@ The model is based on Katz Backoff model. For n-1 grams, the prediction is based
 Model Performance
 ========================================================
 
-
+The size of the object is 4544 bytes. Both models take about 1-2 seconds for it's predictions. It is fast considering the small size of the sample data. 
 
 The model in action
 ========================================================

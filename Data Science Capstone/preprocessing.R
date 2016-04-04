@@ -14,6 +14,10 @@ con = file(paste0(dir,"en_US.news.txt"), open="rb")
 train_news = readLines(con, encoding="UTF-8")
 close(con)
 
+##
+## Corpus creation for training set of data
+##
+
 #Sample data size due to memory issues
 set.seed(100)
 train_blogs = sample(train_blogs, 200000)
@@ -39,6 +43,7 @@ filter = c("fuck", "bitch", "ass", "cunt", "pussy", "asshole", "douche")
 #Setup corpus from training data
 train_words = c(train_blogs, train_news, train_twitter)
 train_corpus = create_corpus(train_words, filter)
+
 
 ##
 ## 1-Gram

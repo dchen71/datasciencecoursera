@@ -1,3 +1,7 @@
+##
+## Preprocess data from 3 sources to create tm of 1gram/2gram/3gram
+##
+
 #Load Packages
 library(tm)
 library(RWeka)
@@ -17,27 +21,45 @@ train_news = sample(train_news, 200000)
 train_twitter = sample(train_twitter, 200000)
 
 #Create a corpus from dataset
-create_corpus = function(dm){
+create_corpus = function(dm, filter){
   corpus = Corpus(VectorSource(dm))
   corpus = tm_map(corpus, removeNumbers) # remove numbers
   corpus = tm_map(corpus, stripWhitespace) # remove whitespaces
   corpus = tm_map(corpus, tolower) #lowercase all contents
   corpus = tm_map(corpus, removePunctuation) # remove punctuation
-  corpus = tm_map(corpus, removeWords, c("fuck", "bitch", "ass", "cunt", "pussy", "asshole", "douche")) #remove some swears
+  corpus = tm_map(corpus, removeWords, filter)
   corpus = tm_map(corpus, PlainTextDocument) #convert to plaintextdocument
   
   return(corpus)
 }
 
+#Create filter for direct removal of certain words
+filter = c("fuck", "bitch", "ass", "cunt", "pussy", "asshole", "douche")
+
 #Setup corpus from training data
 train_words = c(train_blogs, train_news, train_twitter)
-train_corpus = create_corpus(train_words)
+train_corpus = create_corpus(train_words, filter)
 
-#Create 1gram
+##
+## 1-Gram
+##
+
+# Create 1grams
 ngram1 = DocumentTermMatrix(train_corpus)
 ngram1 = removeSparseTerms(ngram1, 0.999)
 ngram1 = as.data.frame(as.matrix(ngram1))
 
+# Process raw ngrams
+ngram1_total = colSums(ngram1)
+ngram1_raw = as.numeric(ngram1_total[1:525])
+ngram1_raw = data.frame(names(ngram1),ngram1_raw)
+names(ngram1_raw) = c("words", "total")
+ngram1_raw$start = substr(ngram1_raw$words, 1,1)
+
+
+##
+## 2-Gram
+##
 
 #Create 2-grams
 create_n2 = function(corpus){
@@ -51,20 +73,6 @@ create_n2 = function(corpus){
 
 ngram2 = create_n2(train_corpus)
 
-#Create 3-grams
-TrigramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3))
-ngram3 = TermDocumentMatrix(train_corpus, control = list(tokenize = TrigramTokenizer))
-ngram3 = removeSparseTerms(ngram3, 0.999)
-ngram3 = as.data.frame(as.matrix(ngram3))
-
-
-
-#Process raw ngrams
-ngram1_total = colSums(ngram1)
-ngram1_raw = as.numeric(ngram1_total[1:525])
-ngram1_raw = data.frame(names(ngram1),ngram1_raw)
-names(ngram1_raw) = c("words", "total")
-ngram1_raw$start = substr(ngram1_raw$words, 1,1)
 
 #Preceding word, after
 ngram2_total = rowSums(ngram2)
@@ -78,6 +86,16 @@ for(i in 1:nrow(ngram2_raw)){
   ngram2_raw$word1[i] = split_words[1]
   ngram2_raw$word2[i] = split_words[2]
 }
+
+##
+## 3-Gram
+##
+
+#Create 3-grams
+TrigramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3))
+ngram3 = TermDocumentMatrix(train_corpus, control = list(tokenize = TrigramTokenizer))
+ngram3 = removeSparseTerms(ngram3, 0.999)
+ngram3 = as.data.frame(as.matrix(ngram3))
 
 #Preceding phrase, after
 ngram3_total = rowSums(ngram3)

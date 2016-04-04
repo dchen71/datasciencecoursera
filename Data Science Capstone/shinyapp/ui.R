@@ -20,20 +20,14 @@ shinyUI(pageWithSidebar(
       predicted has a previous word or first two words in the prediction dataset, it will subset the data and
       return the highest occuring subsequent word afterwards. In the case that the previous word/words 
       have no matches, it returns the highest occuring phrase in the dataset. In addition, ngram1 can predict
-      based on the first letter input."),
-    p("There are two versions of the model, which return different values. They both follow about the same approach
-      however, the first model tries to adjust the phrase on the fly while the bottom gives list of probable
-      words for the next choice.")
+      based on the first letter input.")
   ),
   
   mainPanel(
     h2("Text prediction"),
     p("Input some text to try it out"),
     helpText("Note that it will only work up to 3 words"),
-    h3("Simple prediction model"),
-    textInput("query", "Input"),
-    h4("Predicted text"),
-    textOutput("predictionv1"),
+
     h3("Katz Backoff Model"),
     textInput("backoff", "Input"),
     h4("Predicted next word"),

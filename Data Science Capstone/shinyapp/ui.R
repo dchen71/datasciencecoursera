@@ -25,12 +25,9 @@ shinyUI(pageWithSidebar(
   
   mainPanel(
     h2("Text prediction"),
-    p("Input some text to try it out"),
-    helpText("Note that it will only work up to 3 words"),
 
-    h3("Katz Backoff Model"),
     textInput("backoff", "Input"),
-    h4("Predicted next word"),
+    h4("Predicted next words"),
     dataTableOutput("predictionv2")
   )
 ))

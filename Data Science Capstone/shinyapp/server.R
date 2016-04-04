@@ -32,17 +32,17 @@ pred_backoff = function(word){
     } else{ #guess the next word without a pattern through ngram1
       prediction = tail(twogram_prob[,c(1,3)])
     }
-  } else if(query_length >= 2){ #2 words inputted, create prediction for 3gram
-      if(paste(words[1,1], words[2,1]) %in% ngram3_raw$phrase){
-        word_match = ngram3_raw[ngram3_raw$phrase == paste(words[1,1], words[2,1]),]
+  } else if(query_length >= 2){ #For phrases longer than two words, will take the last 1-2 words to build prediction
+      if(paste(words[query_length - 1,1], words[query_length,1]) %in% ngram3_raw$phrase){ #Checks ngram3 list first
+        word_match = ngram3_raw[ngram3_raw$phrase == paste(words[query_length - 1,1], words[query_length,1]),]
         word_prob = aggregate(total ~ word3, data=word_match, sum)
         word_prob$prob = word_prob$total / sum(word_prob$total)
         word_prob = word_prob[order(word_prob$prob),]
         prediction = tail(word_prob[,c(1,3)])
       }
-      else{
-        if(words[2,1] %in% ngram1_raw$word1){ #see if it can be matched through 2grams
-          word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[1,1]),]
+      else{ #Checks ngram2 list
+        if(words[query_length,1] %in% ngram1_raw$word1){ #see if it can be matched through 2grams
+          word_match = ngram2_raw[ngram2_raw$word1 == as.vector(words[query_length - 1,1]),]
           word_prob = aggregate(total ~ word2, data=word_match, sum)
           word_prob$prob = word_prob$total / sum(word_prob$total)
           word_prob = word_prob[order(word_prob$prob),]
@@ -53,7 +53,7 @@ pred_backoff = function(word){
     }
   }
   else{
-    prediction = "Please enter a string between 1-2 words"
+    prediction = "No suitable prediction found"
   }
   
   return(prediction)

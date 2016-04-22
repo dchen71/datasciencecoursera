@@ -3,51 +3,14 @@
 ##
 
 #Load Packages
-library(tm)
-library(RWeka)
-
-#Load Data
-dir = 'input/en_US/'
-train_blogs = readLines(paste0(dir,"en_US.blogs.txt"))
-train_twitter = readLines(paste0(dir,"en_US.twitter.txt"))
-con = file(paste0(dir,"en_US.news.txt"), open="rb")
-train_news = readLines(con, encoding="UTF-8")
-close(con)
-
-##
-## Corpus creation for training set of data
-##
-
-#Sample data size due to memory issues
-set.seed(100)
-train_blogs = sample(train_blogs, 200000)
-train_news = sample(train_news, 200000)
-train_twitter = sample(train_twitter, 200000)
-
-#Create a corpus from dataset
-create_corpus = function(dm, filter){
-  corpus = Corpus(VectorSource(dm))
-  corpus = tm_map(corpus, removeNumbers) # remove numbers
-  corpus = tm_map(corpus, stripWhitespace) # remove whitespaces
-  corpus = tm_map(corpus, tolower) #lowercase all contents
-  corpus = tm_map(corpus, removePunctuation) # remove punctuation
-  corpus = tm_map(corpus, removeWords, filter)
-  corpus = tm_map(corpus, PlainTextDocument) #convert to plaintextdocument
-  
-  return(corpus)
-}
-
-#Create filter for direct removal of certain words
-filter = c("fuck", "bitch", "ass", "cunt", "pussy", "asshole", "douche")
-
-#Setup corpus from training data
-train_words = c(train_blogs, train_news, train_twitter)
-train_corpus = create_corpus(train_words, filter)
-
+source("create_corpus.R")
 
 ##
 ## 1-Gram
 ##
+
+# Create corpus
+train_corpus = create_training()
 
 # Create 1grams
 ngram1 = DocumentTermMatrix(train_corpus)
@@ -65,6 +28,9 @@ ngram1_raw$start = substr(ngram1_raw$words, 1,1)
 ##
 ## 2-Gram
 ##
+
+# Create corpus
+train_corpus = create_training()
 
 #Create 2-grams
 create_n2 = function(corpus){
@@ -95,6 +61,9 @@ for(i in 1:nrow(ngram2_raw)){
 ##
 ## 3-Gram
 ##
+
+# Create corpus
+train_corpus = create_training()
 
 #Create 3-grams
 TrigramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3))

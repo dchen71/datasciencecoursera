@@ -3,6 +3,8 @@
 ##
 
 #Load Packages
+library(tm)
+library(RWeka)
 source("create_corpus.R")
 
 ##
@@ -11,11 +13,13 @@ source("create_corpus.R")
 
 # Create corpus
 train_corpus = create_training()
+save(train_corpus, file="train_corpus.RData")
 
 # Create 1grams
 ngram1 = DocumentTermMatrix(train_corpus)
-ngram1 = removeSparseTerms(ngram1, 0.999)
+ngram1 = removeSparseTerms(ngram1, 0.995)
 ngram1 = as.data.frame(as.matrix(ngram1))
+save(ngram1, file="ngram1_raw.RData")
 
 # Process raw ngrams
 ngram1_total = colSums(ngram1)
@@ -31,6 +35,7 @@ ngram1_raw$start = substr(ngram1_raw$words, 1,1)
 
 # Create corpus
 train_corpus = create_training()
+save(train_corpus, file="train_corpus.RData")
 
 #Create 2-grams
 create_n2 = function(corpus){
@@ -64,6 +69,7 @@ for(i in 1:nrow(ngram2_raw)){
 
 # Create corpus
 train_corpus = create_training()
+save(train_corpus, file="train_corpus.RData")
 
 #Create 3-grams
 TrigramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3))

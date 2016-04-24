@@ -24,9 +24,9 @@ create_training = function(){
   #Sample data size due to memory issues
   print("Creating sample sizes from datasets")
   set.seed(100)
-  train_blogs = sample(train_blogs, 200000)
-  train_news = sample(train_news, 200000)
-  train_twitter = sample(train_twitter, 200000)
+  train_blogs = sample(train_blogs, 600000)
+  train_news = sample(train_news, 600000)
+  train_twitter = sample(train_twitter, 600000)
   
   #Create a corpus from dataset
   print("Creating corpus")

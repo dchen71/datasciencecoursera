@@ -7,19 +7,23 @@ library(tm)
 library(RWeka)
 source("create_corpus.R")
 
-##
-## 1-Gram
-##
-
 # Create corpus
 train_corpus = create_training()
 save(train_corpus, file="train_corpus.RData")
 
+##
+## 1-Gram
+##
+
+# Load corpus
+load("train_corpus.RData")
+
 # Create 1grams
 ngram1 = DocumentTermMatrix(train_corpus)
+save(ngram1, file="ngram1_raw.RData")
 ngram1 = removeSparseTerms(ngram1, 0.995)
 ngram1 = as.data.frame(as.matrix(ngram1))
-save(ngram1, file="ngram1_raw.RData")
+save(ngram1, file="ngram1.RData")
 
 # Process raw ngrams
 ngram1_total = colSums(ngram1)
@@ -27,28 +31,22 @@ ngram1_raw = as.numeric(ngram1_total[1:525])
 ngram1_raw = data.frame(names(ngram1),ngram1_raw)
 names(ngram1_raw) = c("words", "total")
 ngram1_raw$start = substr(ngram1_raw$words, 1,1)
-
+save(ngram1, file="ngram1_processed.RData")
 
 ##
 ## 2-Gram
 ##
 
-# Create corpus
-train_corpus = create_training()
-save(train_corpus, file="train_corpus.RData")
+# Load corpus
+load("train_corpus.RData")
 
 #Create 2-grams
-create_n2 = function(corpus){
-  TwogramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 2, max = 2))
-  ngram2 = TermDocumentMatrix(corpus, control = list(tokenize = TwogramTokenizer))
-  ngram2 = removeSparseTerms(ngram2, 0.999)
-  ngram2 = as.data.frame(as.matrix(ngram2))
-  
-  return(ngram2)
-}
-
-ngram2 = create_n2(train_corpus)
-
+TwogramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 2, max = 2))
+ngram2 = TermDocumentMatrix(train_corpus, control = list(tokenize = TwogramTokenizer))
+save(ngram2, file="ngram2_raw.RData")
+ngram2 = removeSparseTerms(ngram2, 0.999)
+ngram2 = as.data.frame(as.matrix(ngram2))
+save(ngram2, file="ngram2.RData")
 
 #Preceding word, after
 ngram2_total = rowSums(ngram2)
@@ -62,20 +60,22 @@ for(i in 1:nrow(ngram2_raw)){
   ngram2_raw$word1[i] = split_words[1]
   ngram2_raw$word2[i] = split_words[2]
 }
+save(ngram2, file="ngram2_processed.RData")
 
 ##
 ## 3-Gram
 ##
 
-# Create corpus
-train_corpus = create_training()
-save(train_corpus, file="train_corpus.RData")
+# Load corpus
+load("train_corpus.RData")
 
 #Create 3-grams
 TrigramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3))
 ngram3 = TermDocumentMatrix(train_corpus, control = list(tokenize = TrigramTokenizer))
+save(ngram3, file="ngram3_raw.RData")
 ngram3 = removeSparseTerms(ngram3, 0.999)
 ngram3 = as.data.frame(as.matrix(ngram3))
+save(ngram3, file="ngram3.RData")
 
 #Preceding phrase, after
 ngram3_total = rowSums(ngram3)
@@ -89,3 +89,4 @@ for(i in 1:nrow(ngram3_raw)){
   ngram3_raw$phrase[i] = paste(split_words[1],split_words[2], sep=" ")
   ngram3_raw$word3[i] = split_words[3]
 }
+save(ngram3, file="ngram3_processed.RData")

@@ -27,7 +27,7 @@ save(ngram1, file="ngram1.RData")
 
 # Process raw ngrams
 ngram1_total = colSums(ngram1)
-ngram1_raw = as.numeric(ngram1_total[1:525])
+ngram1_raw = as.numeric(ngram1_total[1:length(ngram1_total)])
 ngram1_raw = data.frame(names(ngram1),ngram1_raw)
 names(ngram1_raw) = c("words", "total")
 ngram1_raw$start = substr(ngram1_raw$words, 1,1)

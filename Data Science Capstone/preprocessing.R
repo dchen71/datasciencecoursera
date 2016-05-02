@@ -32,6 +32,7 @@ ngram1_raw = data.frame(names(ngram1),ngram1_raw)
 names(ngram1_raw) = c("words", "total")
 ngram1_raw$start = substr(ngram1_raw$words, 1,1)
 save(ngram1, file="ngram1_processed.RData")
+write.csv(ngram1, "ng1.csv", row.names = FALSE)
 
 ##
 ## 2-Gram
@@ -44,7 +45,7 @@ load("train_corpus.RData")
 TwogramTokenizer = function(x) NGramTokenizer(x, Weka_control(min = 2, max = 2))
 ngram2 = TermDocumentMatrix(train_corpus, control = list(tokenize = TwogramTokenizer))
 save(ngram2, file="ngram2_raw.RData")
-ngram2 = removeSparseTerms(ngram2, 0.999)
+ngram2 = removeSparseTerms(ngram2, 0.995)
 ngram2 = as.data.frame(as.matrix(ngram2))
 save(ngram2, file="ngram2.RData")
 
@@ -61,6 +62,7 @@ for(i in 1:nrow(ngram2_raw)){
   ngram2_raw$word2[i] = split_words[2]
 }
 save(ngram2, file="ngram2_processed.RData")
+write.csv(ngram2, "ng2.csv", row.names = FALSE)
 
 ##
 ## 3-Gram
@@ -90,3 +92,4 @@ for(i in 1:nrow(ngram3_raw)){
   ngram3_raw$word3[i] = split_words[3]
 }
 save(ngram3, file="ngram3_processed.RData")
+write.csv(ngram3, "ng3.csv", row.names = FALSE)

@@ -31,8 +31,8 @@ ngram1_raw = as.numeric(ngram1_total[1:length(ngram1_total)])
 ngram1_raw = data.frame(names(ngram1),ngram1_raw)
 names(ngram1_raw) = c("words", "total")
 ngram1_raw$start = substr(ngram1_raw$words, 1,1)
-save(ngram1, file="ngram1_processed.RData")
-write.csv(ngram1, "ng1.csv", row.names = FALSE)
+save(ngram1_raw, file="ngram1_processed.RData")
+write.csv(ngram1_raw, "ng1.csv", row.names = FALSE)
 
 ##
 ## 2-Gram
@@ -61,8 +61,8 @@ for(i in 1:nrow(ngram2_raw)){
   ngram2_raw$word1[i] = split_words[1]
   ngram2_raw$word2[i] = split_words[2]
 }
-save(ngram2, file="ngram2_processed.RData")
-write.csv(ngram2, "ng2.csv", row.names = FALSE)
+save(ngram2_raw, file="ngram2_processed.RData")
+write.csv(ngram2_raw, "ng2.csv", row.names = FALSE)
 
 ##
 ## 3-Gram
@@ -91,5 +91,5 @@ for(i in 1:nrow(ngram3_raw)){
   ngram3_raw$phrase[i] = paste(split_words[1],split_words[2], sep=" ")
   ngram3_raw$word3[i] = split_words[3]
 }
-save(ngram3, file="ngram3_processed.RData")
-write.csv(ngram3, "ng3.csv", row.names = FALSE)
+save(ngram3_raw, file="ngram3_processed.RData")
+write.csv(ngram3_raw, "ng3.csv", row.names = FALSE)

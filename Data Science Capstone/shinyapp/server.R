@@ -1,7 +1,10 @@
 library(shiny)
-ngram1_raw = read.csv("data/ng1.csv")
-ngram2_raw = read.csv("data/ng2.csv")
-ngram3_raw = read.csv("data/ng3.csv")
+load("data/ngram1_processed.RData")
+ngram1_raw = ngram1
+load("data/ngram2_processed.RData")
+ngram2_raw = ngram2
+load("data/ngram3_processed.RData")
+ngram3_raw = ngram3
 
 #Performs a Katz backoff model prediction
 pred_backoff = function(word){
